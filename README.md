@@ -1,1 +1,1 @@
-# content_analysis_of_yelp_reviews
+# Content Analysis Of Yelp Reviews using Seq2Seq Neural Network
