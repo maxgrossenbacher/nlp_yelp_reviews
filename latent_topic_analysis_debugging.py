@@ -42,6 +42,7 @@ class NlpTopicAnalysis(object):
         self.topic_matrix = None
         self.latent_topics_top_terms = {}
         self.terms_list = []
+        self.topic_w_weights = {}
 
     def _get_reviews_and_label(self):
         '''
@@ -96,18 +97,18 @@ class NlpTopicAnalysis(object):
         return
 
     # Part4 Vectorizing textacy corpus
-    def vectorize(self):
+    def vectorize(self, min_df=100, max_df=0.95, max_n_terms=100000):
         '''
         DESC: Creates tfidf matrix of textacy corpus.
         --Output--
             Returns creates tfidf matrix of textacy corpus.
         '''
         for doc in self.corpus:
-            self.terms_list.append(list(doc.to_terms_list(n_grams=(1), named_entities=True, \
+            self.terms_list.append(list(doc.to_terms_list(n_grams=1, named_entities=True, \
                                                 normalize='lemma', as_strings=True, \
                                                 filter_stops=True, filter_punct=True )))
         self.vectorizer = textacy.Vectorizer(weighting='tfidf', normalize=True, \
-                                            smooth_idf=True, min_df=100, max_df=0.95, max_n_terms=100000)
+                                            smooth_idf=True, min_df=min_df, max_df=max_df, max_n_terms=max_n_terms)
         self.tfidf = self.vectorizer.fit_transform(self.terms_list)
         return
 
@@ -139,7 +140,7 @@ class NlpTopicAnalysis(object):
         return centroids, k_labels
 
     #Part 2
-    def topic_analysis(self, n_topics=5, model_type='nmf', n_terms=25, n_highlighted_topics=1, save=False):
+    def topic_analysis(self, n_topics=5, model_type='nmf', n_terms=25, n_highlighted_topics=1, plot=False, save=False, kwargs=None):
         '''
         DESC: Latent topic modeling of tfidf matrix. Generates termite plot of latent topics.
         for corpus on n topics
@@ -156,25 +157,26 @@ class NlpTopicAnalysis(object):
         if n_highlighted_topics > 6:
             print('Value Error: n_highlighted_topics must be =< 5')
             return
-        topic_w_weights = {}
-        self.model = textacy.TopicModel(model_type, n_topics=n_topics, init='random', alpha=0.2, maxiter=5000, l1_ratio=.9)
+        highlighting = {}
+        self.model = textacy.TopicModel(model_type, n_topics=n_topics, kwargs=kwargs)
         self.model.fit(self.tfidf)
         self.topic_matrix = self.model.transform(self.tfidf)
         for topic_idx, top_terms in self.model.top_topic_terms(self.vectorizer.id_to_term, topics=range(n_topics), weights=False):
             self.latent_topics_top_terms[topic_idx] = top_terms
             print('Topic {}: {}' .format(topic_idx, top_terms))
         for topic, weight in enumerate(self.model.topic_weights(self.topic_matrix)):
-            topic_w_weights[topic] = weight
+            self.topic_w_weights[topic] = weight
+            highlighting[weight] = topic
             # print('Topic {} has weight: {}' .format(topic, weight))
-        sort_values = sorted(topic_w_weights.values())[::-1]
-        print(sort_values)
-        for topics, weights in topic_w_weights.items():
-            highlight = set(topics for weights in sort_values[:n_highlighted_topics])
-        print(highlight)
-        self.model.termite_plot(self.tfidf, self.vectorizer.id_to_term, topics=-1,  n_terms=n_terms, highlight_topics=highlight)
-        if save:
-            plt.savefig(save)
-        return self.topic_matrix, topic_w_weights
+        if plot:
+            sort_weights = sorted(highlighting.keys())[::-1]
+            highlight = [highlighting[i] for i in sort_weights[:n_highlighted_topics]]
+            self.model.termite_plot(self.tfidf, self.vectorizer.id_to_term, topics=-1,  n_terms=n_terms, highlight_topics=highlight)
+            if save:
+                plt.savefig(save)
+            plt.tight_layout()
+            plt.show()
+        return
 
 
 if __name__ == '__main__':
@@ -192,91 +194,19 @@ if __name__ == '__main__':
     # # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
     print('Done.')
 
-    #EDA
-    # sort_reviews_by_business = data_reviews[['business_id','text']].groupby('business_id').count().sort_values('text', ascending=False)
-    # num_reviews_per_business = [['name','review_count','stars']].sort_values('review_count', ascending=False)
-    # num_reviews_per_w_bus_id = data_business[['name', 'business_id' ,'review_count','stars']].sort_values('review_count', ascending=False)
-
-    # print('finding most reviewed businesses...')
-    # print(data_reviews[['business_id','text']].groupby('business_id').count().sort_values('text', ascending=False).head())
-    # print('Done.')
-
     #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
     print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
     reviews_4JNXUYY8wbaaDmk3BPzlWw_df = data_reviews[(data_reviews['business_id'] == '4JNXUYY8wbaaDmk3BPzlWw')]
     # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
     print('Done.')
-    #
-    # #get reviews as strings into a list
-    # print('collecting text...')
-    # reviews_4JNXUYY8wbaaDmk3BPzlWw, rating_of_review = get_reviews_and_ratings(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
-    # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw))
-    # print('Done.')
-    #
-    # #tokenize reviews
-    # print('tokenizing text and compressing corpus...')
-    # corpus_4JNXUYY8wbaaDmk3BPzlWw = process_text(reviews_4JNXUYY8wbaaDmk3BPzlWw, \
-    #                                                 filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-    #                                                 filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
-    #                                                 compression=None)
-    # print(type(corpus_4JNXUYY8wbaaDmk3BPzlWw))
-    # print('Done.')
 
+    nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
+    nlp.process_text()
+    nlp.vectorize()
 
-    #load corpus of textacy docs
-    # print('loading textacy corpus from compressed file...')
-    # corpus_4JNXUYY8wbaaDmk3BPzlWw = load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-    #                                             filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
-    #                                             compression=None)
-
-    # print('k-means clustering and pca...')
-    # doc_term_matrix, vectorizer = vectorize(corpus_4JNXUYY8wbaaDmk3BPzlWw)
-    # tfidf_2d = pca(doc_term_matrix.toarray())
-    # centroids, labels = k_means(tfidf_2d, 5)
-    # print('Done.')
-    #
-    #
-    # print('Naive Bayes rating anaylsis...')
-    # probablites, accuracy = sentiment_analysis(doc_term_matrix.toarray(), rating_of_review)
-    # print('Done.')
-    #create models
-    # print('creating nmf model...')
-    # topic_matrix_nmf, topic_w_weights_nmf = topic_analysis(doc_term_matrix, \
-    #                                                         vectorizer, \
-    #                                                         n_topics=12, \
-    #                                                         model_type='nmf', \
-    #                                                         n_terms=50, \
-    #                                                         n_highlighted_topics=5)
-    # plt.tight_layout()
-    # plt.savefig('termite_plot_nmf_4JNXUYY8wbaaDmk3BPzlWw')
-    # plt.show()
-    # print('Done.')
-    #
-    #
-    # print('creating lda model...')
-    # topic_matrix_lda, topic_w_weights_lda = topic_analysis(doc_term_matrix, \
-    #                                                         vectorizer, \
-    #                                                         n_topics=12, \
-    #                                                         model_type='lda', \
-    #                                                         n_terms=50, \
-    #                                                         n_highlighted_topics=5)
-    # plt.tight_layout()
-    # plt.savefig('termite_plot_lda_4JNXUYY8wbaaDmk3BPzlWw')
-    # plt.show()
-    # print('Done.')
-    #
-    #
-    # print('creating lsa model...')
-    # topic_matrix_lsa, topic_w_weights_lsa = topic_analysis(doc_term_matrix, \
-    #                                                         vectorizer, \
-    #                                                         n_topics=12, \
-    #                                                         model_type='lsa', \
-    #                                                         n_terms=50, \
-    #                                                         n_highlighted_topics=5)
-    # plt.tight_layout()
-    # plt.savefig('termite_plot_lsa_4JNXUYY8wbaaDmk3BPzlWw')
-    # plt.show()
-    # print('Done.')
-
-
-# nlp.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data',filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', compression=None)
+    print(nlp.terms_list)
+    print(nlp.vectorizer.vocabulary)
+    nlp.topic_analysis(model_type='lda',n_topics=20, n_terms=50, \
+                                n_highlighted_topics=5, \
+                                kwargs={'learning_method':'batch', 'max_iter':25}, plot=True)
+    nlp.topic_analysis(model_type='nmf',n_topics=20, n_terms=50, n_highlighted_topics=5, plot=True, kwargs={'init':'nndsvd', 'max_iter':25, 'solver':'mu'})
