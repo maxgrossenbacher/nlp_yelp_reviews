@@ -42,7 +42,7 @@ class NlpTopicAnalysis(object):
         textcol: (str) name of column in pandas DataFrame where text are located
         labelcol: (str) name of column in pandas DataFrame where labels are located
     """
-    def __init__(self, df, textcol, labelcol=None):
+    def __init__(self, df=None, textcol=None, labelcol=None):
         self.df = df
         self.textcol = textcol
         self.labelcol = labelcol
@@ -58,6 +58,9 @@ class NlpTopicAnalysis(object):
         self.terms_list = []
         self.topic_w_weights = {}
         self.ldavis = None
+        self.tokens = []
+        self.token_vectors = None
+        self.doc_vectors = None
 
     def _get_reviews_and_label(self):
         '''
@@ -129,6 +132,24 @@ class NlpTopicAnalysis(object):
         self.tfidf = self.vectorizer.fit_transform(self.terms_list)
         return
 
+    def word2vec(self):
+        doc_vects = []
+        toks_vects = []
+        for ind, doc in enumerate(self.corpus):
+            print('going through doc {}...'.format(ind))
+            doc_vects.append(doc.spacy_doc.vector)
+            for token in doc.spacy_doc:
+                if token.orth_ not in self.tokens:
+                    toks_vects.append(token.vector)
+                    self.tokens.append(token.orth_)
+        print('creating arrays')
+        print(len(doc_vects))
+        self.doc_vectors = np.array(doc_vects)
+        print(len(toks_vects))
+        self.token_vectors = np.array(toks_vects)
+        print('Done.')
+
+
     # Principle component analysis for k means graph
     def pca(self, n_components):
         '''
@@ -139,7 +160,7 @@ class NlpTopicAnalysis(object):
         '''
         p = PCA(n_components=n_components, copy=True, whiten=False, svd_solver='auto', \
                     tol=0.0, iterated_power='auto', random_state=None)
-        self.pca_mat = p.fit_transform(self.tfidf.toarray())
+        self.pca_mat = p.fit_transform(self.doc_vectors)
         return
 
 
@@ -152,14 +173,18 @@ class NlpTopicAnalysis(object):
         --Output--
             Returns centroids for n_clusters and labels for each tfidf document vector
         '''
-        knn = KMeans(n_clusters=n_clusters, init='k-means++', n_init=10, max_iter=100, \
-                        tol=0.0001, precompute_distances='auto', verbose=0, \
+        knn = KMeans(n_clusters=n_clusters, init='k-means++', n_init=10, max_iter=20, \
+                        tol=0.001, precompute_distances='auto', verbose=0, \
                         random_state=None, copy_x=True, n_jobs=-1, algorithm='auto')
         knn.fit(self.pca_mat)
         centroids = knn.cluster_centers_
         k_labels = knn.labels_
         if self.pca_mat.shape[1] == 2:
             plt.scatter(self.pca_mat[:,0], self.pca_mat[:,1], c=k_labels.astype(np.float), alpha=0.3)
+            plt.legend()
+            plt.title('Review Clustering')
+            print('plotting...')
+            plt.show()
         return centroids, k_labels
 
     #Part 2
@@ -201,9 +226,11 @@ class NlpTopicAnalysis(object):
                                     topics=-1,  \
                                     n_terms=n_terms, \
                                     highlight_topics=highlight)
+            plt.title(model_type.upper() + 'Topic Anaylsis')
+            plt.tight_layout()
+            print('plotting...')
             if save:
                 plt.savefig(save)
-            plt.tight_layout()
             plt.show()
         return
 
@@ -244,34 +271,45 @@ class NlpTopicAnalysis(object):
                                         mds='mmds', \
                                         sort_topics=False)
         pyLDAvis.save_html(self.ldavis, 'pyLDAvis_4JNXUYY8wbaaDmk3BPzlWw')
+        print('plotting...')
         pyLDAvis.show(self.ldavis)
 
 if __name__ == '__main__':
-    print('loaded NlpTopicAnalysis')
-    #load pickled dfs
-    print('loading reviews pkl...')
-    data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
-    # print('loading tips pkl...')
-    # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
-    # print('loading business pkl...')
-    # data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
-    # print('loading user pkl...')
-    # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
-    # print('loading checkin pkl...')
-    # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
-    print('Done.')
+    # print('loaded NlpTopicAnalysis')
+    # #load pickled dfs
+    # print('loading reviews pkl...')
+    # data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
+    # # print('loading tips pkl...')
+    # # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
+    # # print('loading business pkl...')
+    # # data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
+    # # print('loading user pkl...')
+    # # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
+    # # print('loading checkin pkl...')
+    # # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
+    # print('Done.')
+    #
+    # #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
+    # print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
+    # reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
+    # # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
+    # print('Done.')
 
-    #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
-    print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
-    reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
-    # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
+    # nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
+    nlp = NlpTopicAnalysis()
+    nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+                    filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
+                    compression=None)
+    print(nlp.corpus)
+    # nlp.vectorize()
+    nlp.word2vec()
+    print('pca...')
+    nlp.pca(2)
+    print('Kmeans...')
+    nlp.k_means(5)
     print('Done.')
-
-    nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
-    nlp.process_text()
-    nlp.vectorize()
-    nlp.topic_analysis(n_topics=10, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
-    nlp.lda_vis()
+    # nlp.topic_analysis(n_topics=10, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
+    # nlp.lda_vis()
 
     # print(nlp.terms_list)
     # print(nlp.vectorizer.vocabulary)
