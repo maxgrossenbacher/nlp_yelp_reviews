@@ -243,6 +243,7 @@ class NlpTopicAnalysis(object):
                                         R=n_words, \
                                         mds='mmds', \
                                         sort_topics=False)
+        pyLDAvis.save_html(self.ldavis, 'pyLDAvis_4JNXUYY8wbaaDmk3BPzlWw')
         pyLDAvis.show(self.ldavis)
 
 if __name__ == '__main__':
