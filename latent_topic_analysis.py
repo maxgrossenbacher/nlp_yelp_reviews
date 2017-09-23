@@ -275,39 +275,39 @@ class NlpTopicAnalysis(object):
         pyLDAvis.show(self.ldavis)
 
 if __name__ == '__main__':
-    # print('loaded NlpTopicAnalysis')
-    # #load pickled dfs
-    # print('loading reviews pkl...')
-    # data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
-    # # print('loading tips pkl...')
-    # # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
-    # # print('loading business pkl...')
-    # # data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
-    # # print('loading user pkl...')
-    # # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
-    # # print('loading checkin pkl...')
-    # # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
-    # print('Done.')
-    #
-    # #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
-    # print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
-    # reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
-    # # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
-    # print('Done.')
+    print('loaded NlpTopicAnalysis')
+    #load pickled dfs
+    print('loading reviews pkl...')
+    data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
+    # print('loading tips pkl...')
+    # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
+    print('loading business pkl...')
+    data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
+    # print('loading user pkl...')
+    # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
+    # print('loading checkin pkl...')
+    # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
+    print('Done.')
 
-    # nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
+    #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
+    print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
+    reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
+    # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
+    print('Done.')
+
+    nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
     nlp = NlpTopicAnalysis()
     nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
                     filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
                     compression=None)
     print(nlp.corpus)
-    # nlp.vectorize()
+    nlp.vectorize()
     nlp.word2vec()
     print('pca...')
     nlp.pca(2)
-    print('Kmeans...')
-    nlp.k_means(5)
-    print('Done.')
+    # print('Kmeans...')
+    # nlp.k_means(5)
+    # print('Done.')
     # nlp.topic_analysis(n_topics=10, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
     # nlp.lda_vis()
 
