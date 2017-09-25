@@ -42,15 +42,15 @@ class NlpTopicAnalysis(object):
         textcol: (str) name of column in pandas DataFrame where text are located
         labelcol: (str) name of column in pandas DataFrame where labels are located
     """
-    def __init__(self, df=None, textcol=None, labelcol=None):
+    def __init__(self, df=None, textcol=None, labelcol=None, text=[], label=[]):
         self.df = df
         self.textcol = textcol
         self.labelcol = labelcol
         self.vectorizer = None
         self.corpus = None
         self.model = None
-        self.text = []
-        self.label = []
+        self.text = text
+        self.label = label
         self.pca_mat = None
         self.tfidf = None
         self.topic_matrix = None
@@ -88,7 +88,8 @@ class NlpTopicAnalysis(object):
         --Output--
             Returns textacy corpus object, if filepath: saves textacy corpus as pickle
         '''
-        self._get_reviews_and_label()
+        if len(self.text) == 0:
+            self._get_reviews_and_label()
         self.corpus = textacy.Corpus('en', texts=self.text)
         if filepath:
             self.corpus.save(filepath, filename, compression)

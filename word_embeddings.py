@@ -27,7 +27,7 @@ np.savetxt('metadata.tsv', nlp.label, delimiter='\t')
 
 
 sess = tf.InteractiveSession()
-LOG_DIR = '/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/nlp_yelp_reviews'
+LOG_DIR = '/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/nlp_yelp_reviews/mon.ami.abi'
 doc_embeddings = tf.Variable(nlp.doc_vectors, trainable=False, name='embedding')
 tf.global_variables_initializer().run()
 
