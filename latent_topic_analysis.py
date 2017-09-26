@@ -34,6 +34,11 @@ def business_reviews(df, colname, business_id):
     '''
     return df[(df[colname] == business_id)]
 
+def to_text(filepath, lst):
+    with open(filepath, mode='wt', encoding='utf-8') as f:
+        f.write('\n'.join(lst))
+    return
+
 
 class NlpTopicAnalysis(object):
     """
@@ -43,15 +48,16 @@ class NlpTopicAnalysis(object):
         textcol: (str) name of column in pandas DataFrame where text are located
         labelcol: (str) name of column in pandas DataFrame where labels are located
     """
-    def __init__(self, df=None, textcol=None, labelcol=None, text=[], label=[]):
+    def __init__(self, df=None, textcol=None, labelcol=None):
+        self.spacy = spacy.load('en')
         self.df = df
         self.textcol = textcol
         self.labelcol = labelcol
         self.vectorizer = None
         self.corpus = None
         self.model = None
-        self.text = text
-        self.label = label
+        self.text = []
+        self.label = []
         self.pca_mat = None
         self.tfidf = None
         self.topic_matrix = None
@@ -91,11 +97,13 @@ class NlpTopicAnalysis(object):
         '''
         if len(self.text) == 0:
             self._get_reviews_and_label()
-        self.corpus = textacy.Corpus('en', texts=self.text)
+        self.corpus = textacy.Corpus('en')
+        self.corpus.add_texts(texts=self.text, batch_size=1000, n_threads=7)
         if filepath:
             self.corpus.save(filepath, filename, compression)
             print('Saved textacy corpus to filepath.')
         return
+
 
 
     #Part 3 loading textacy corpus from compressed file
@@ -113,10 +121,6 @@ class NlpTopicAnalysis(object):
         self.corpus = textacy.Corpus.load(filepath, filename, compression)
         return
 
-    def to_text(filepath, lst):
-        with open(filepath, mode='wt', encoding='utf-8') as f:
-            f.write('\n'.join(lst))
-        return
 
     # Part4 Vectorizing textacy corpus
     def vectorize(self, weighting='tf', min_df=0.1, max_df=0.95, max_n_terms=100000, exclude_pos=['PUNCT','SPACE']):
@@ -137,7 +141,7 @@ class NlpTopicAnalysis(object):
         self.vectorizer = textacy.Vectorizer(weighting=weighting, normalize=True, \
                                             smooth_idf=True, min_df=min_df, max_df=max_df, max_n_terms=max_n_terms)
         self.tfidf = self.vectorizer.fit_transform(self.terms_list)
-        return
+        return self.tfidf
 
     def word2vec(self):
         doc_vects = []
@@ -366,11 +370,14 @@ if __name__ == '__main__':
     print('loading rest_text_target_w_ids_df...')
     rest_text_target_w_ids_df = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_w_ids_df.pkl")
     print('Done.')
-    g100 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=100]
-    print(g100.info())
-    nlp_g100 = NlpTopicAnalysis(df=g100, textcol='text', labelcol='target')
+    g500 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=500]
+    print(g500.info())
+    nlp_g500 = NlpTopicAnalysis(df=g500, textcol='text', labelcol='target')
     print('processing restaurants_dfs...')
-    nlp_g100.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-                            filename='rest_g100', \
+    nlp_g500.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+                            filename='g500_corpus', \
                             compression='gzip')
+    print('writing to text file...')
+    nlp_g500.to_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/g500_text.txt', nlp_g500.text)
+    nlp_g500.to_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/g500_targets.txt', nlp_g500.labels)
     print('Done.')
