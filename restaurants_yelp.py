@@ -12,7 +12,15 @@ def load_pickle(pkl):
     '''
     return pd.read_pickle(pkl)
 
-def get_category(data_business, data_reviews, category='categories', b_ids='business_id', textcol='text', labels=['stars','business_id'], keywords):
+def unpack(df, column, fillna=None):
+    upacked = None
+    if fillna is None:
+        unpacked = pd.concat([df, pd.DataFrame((d for idx, d in df[column].items()))], axis=1)
+    else:
+        unpacked = pd.concat([df, pd.DataFrame((d for idx, d in df[column].items())).fillna(fillna)], axis=1)
+    return unpacked
+
+def get_category(df, keywords, category='categories', b_ids='business_id', textcol='text', labels=['stars','RestaurantsPriceRange2','business_id']):
     '''
     DESC: Grab businesses with certain keywords in the categories list of
             yelp_business dataframe and return their reviews.
@@ -24,24 +32,18 @@ def get_category(data_business, data_reviews, category='categories', b_ids='busi
         Returns list of reviews and list of ratings for the review
     '''
     keywords = keywords
-    cats = data_business[category]
-    scategories=[cat for cat in cats]
+    scategories=[cat for cat in df[category]]
     ind = set(ind for ind, cat in enumerate(scategories) for word in cat if word in keywords)
-    restaurant_ids = data_business[b_ids].iloc[list(ind)]
-    restaurant_review_df = data_reviews[data_reviews[b_ids].isin(restaurant_ids)]
-    restaurant_business = data_business[(data_business[b_ids].isin(restaurant_ids))]
-    text, review_rating = [], []
-    for i in range(restaurant_review_df.shape[0]):
-        text.append(restaurant_review_df[textcol].iloc[i])
-        review_rating = restaurant_review_df[labels].iloc[i]
-    print(len(text), len(review_rating))
-    print(text[1], review_rating[1])
-    return text, review_rating
+    resturants_df = df.iloc[list(ind)]
+    return resturants_df
 
 
 if __name__ == '__main__':
     data_reviews = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/yelp_reviews.pkl")
     data_business = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/yelp_business.pkl")
 
+    data_business_unpacked = unpack(data_business, 'attributes',-1)
+    merged_df = data_reviews.merge(data_business_unpacked, on='business_id', how='left', suffixes=['rev', 'bus'], sort=False, indicator=True)
     keywords = ['Restaurants']
-    restaurant_reviews, restaurant_review_labels = get_category(keywords)
+    restaurant_df = get_category(df=merged_df,keywords=keywords)
+    restaurant_df.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/merged_rest_df.pkl")

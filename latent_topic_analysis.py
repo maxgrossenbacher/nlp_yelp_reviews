@@ -7,6 +7,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 import pyLDAvis
 import pyLDAvis.sklearn
+import restaurants_yelp
 
 #Part 1 retriving reviews from pkl df
 def load_pickle(pkl):
@@ -110,6 +111,11 @@ class NlpTopicAnalysis(object):
             Returns textacy corpus object
         '''
         self.corpus = textacy.Corpus.load(filepath, filename, compression)
+        return
+
+    def to_text(filepath, lst):
+        with open(filepath, mode='wt', encoding='utf-8') as f:
+            f.write('\n'.join(lst))
         return
 
     # Part4 Vectorizing textacy corpus
@@ -227,7 +233,6 @@ class NlpTopicAnalysis(object):
                                     topics=-1,  \
                                     n_terms=n_terms, \
                                     highlight_topics=highlight)
-            plt.title(model_type.upper() + 'Topic Anaylsis')
             plt.tight_layout()
             print('plotting...')
             if save:
@@ -278,43 +283,94 @@ class NlpTopicAnalysis(object):
 if __name__ == '__main__':
     print('loaded NlpTopicAnalysis')
     #load pickled dfs
-    print('loading reviews pkl...')
-    data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
+    # print('loading reviews pkl...')
+    # data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
     # print('loading tips pkl...')
     # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
-    print('loading business pkl...')
-    data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
+    # print('loading business pkl...')
+    # data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
     # print('loading user pkl...')
     # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
     # print('loading checkin pkl...')
     # data_checkin = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_checkin.pkl')
     print('Done.')
 
+    ''' most rated business latent topic analysis'''
     #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
-    print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
-    reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
+    # print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
+    # reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
     # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
-    print('Done.')
-
-    nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
-    nlp = NlpTopicAnalysis()
-    nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-                    filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
-                    compression=None)
-    print(nlp.corpus)
-    nlp.vectorize()
-    nlp.word2vec()
-    print('pca...')
-    nlp.pca(2)
-    # print('Kmeans...')
-    # nlp.k_means(5)
     # print('Done.')
-    # nlp.topic_analysis(n_topics=10, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
+
+    # nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
+    # nlp = NlpTopicAnalysis()
+    # nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+    #                 filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
+    #                 compression=None)
+    # print(nlp.corpus)
+    # nlp.vectorize()
+    # nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
     # nlp.lda_vis()
 
-    # print(nlp.terms_list)
-    # print(nlp.vectorizer.vocabulary)
-    # nlp.topic_analysis(model_type='lda',n_topics=20, n_terms=50, \
-    #                             n_highlighted_topics=5, \
-    #                             kwargs={'learning_method':'batch', 'max_iter':25}, plot=True)
-    # nlp.topic_analysis(model_type='nmf',n_topics=20, n_terms=50, n_highlighted_topics=5, plot=True, kwargs={'init':'nndsvd', 'max_iter':25, 'solver':'mu'})
+    ''' Getting restaurants text and labels'''
+    # print('unpacking attributes...')
+    # data_business_unpacked = restaurants_yelp.unpack(data_business, 'attributes')
+    # print('Done.')
+    # print('merging dfs & finding restaurants...')
+    # merged_df = data_reviews.merge(data_business_unpacked, on='business_id', how='left', suffixes=['rev', 'bus'], sort=False, indicator=True)
+    # keywords = ['Restaurants']
+    # restaurant_df = restaurants_yelp.get_category(df=merged_df,keywords=keywords)
+    # restaurant_df.reset_index(inplace=True)
+    # print('Done.')
+    # print('creating rest_text_target df...')
+    # rest_text_target = restaurant_df[['text', 'starsrev', 'RestaurantsPriceRange2']]
+    # rest_text_target.dropna(inplace=True)
+    # rest_text_target['target'] = rest_text_target['starsrev'].map(str) + '-' + rest_text_target['RestaurantsPriceRange2'].map(str)
+    # rest_text_target.drop(labels=['starsrev','RestaurantsPriceRange2'], inplace=True, axis=1)
+    # print('Done.')
+    # print('pickling df...')
+    # rest_text_target.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_df.pkl")
+    # print('Done.')
+
+    '''NLP resturants df'''
+    # print('loading rest_text_target_df...')
+    # rest_text_target_df = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_df.pkl")
+    # print('Done.')
+    # nlp_rest = NlpTopicAnalysis(df=rest_text_target_df, textcol='text', labelcol='target')
+    # print('processing restaurants_dfs...')
+    # nlp_rest.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+    #                         filename='rest_text_tar_corpus', \
+    #                         compression='gzip')
+    # print('Done.')
+
+    '''resturants_w_ids df...'''
+    # print('unpacking attributes...')
+    # data_business_unpacked = restaurants_yelp.unpack(data_business, 'attributes')
+    # print('Done.')
+    # print('merging dfs & finding restaurants...')
+    # merged_df = data_reviews.merge(data_business_unpacked, on='business_id', how='left', suffixes=['rev', 'bus'], sort=False, indicator=True)
+    # keywords = ['Restaurants']
+    # restaurant_df = restaurants_yelp.get_category(df=merged_df,keywords=keywords)
+    # restaurant_df.reset_index(inplace=True)
+    # print('Done.')
+    # print('creating rest_text_target_w_ids df...')
+    # rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2']]
+    # rest_text_target_w_ids.dropna(inplace=True)
+    # rest_text_target_w_ids['target'] = rest_text_target_w_ids['starsrev'].map(str) + '-' + rest_text_target_w_ids['RestaurantsPriceRange2'].map(str)
+    # print('Done.')
+    # print('pickling df...')
+    # rest_text_target_w_ids.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_W_ids_df.pkl")
+    # print('Done.')
+
+    ''' NLP subset'''
+    print('loading rest_text_target_w_ids_df...')
+    rest_text_target_w_ids_df = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_w_ids_df.pkl")
+    print('Done.')
+    g100 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=100]
+    print(g100.info())
+    nlp_g100 = NlpTopicAnalysis(df=g100, textcol='text', labelcol='target')
+    print('processing restaurants_dfs...')
+    nlp_g100.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+                            filename='rest_g100', \
+                            compression='gzip')
+    print('Done.')
