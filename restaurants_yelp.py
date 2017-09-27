@@ -47,6 +47,7 @@ if __name__ == '__main__':
     print('Done.')
     print('creating sentiment col...')
     data_reviews['sentiment'] = data_reviews['stars'].apply(lambda x: 'negative'if x <3 else ('neutral' if x==3 else 'positive'))
+    data_reviews['usefulness'] = data_reviews['useful'].apply(lambda x: 'very_useful'if x >=5 else ('useful' if  x>0 else 'not_useful'))
     print('Done.')
     print('merging dfs & finding restaurants...')
     merged_df = data_reviews.merge(data_business_unpacked, on='business_id', how='left', suffixes=['rev', 'bus'], sort=False, indicator=True)
