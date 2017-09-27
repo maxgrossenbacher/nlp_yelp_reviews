@@ -39,8 +39,8 @@ def get_category(df, keywords, category='categories', b_ids='business_id', textc
 
 
 if __name__ == '__main__':
-    data_reviews = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/yelp_reviews.pkl")
-    data_business = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/yelp_business.pkl")
+    data_reviews = load_pickle("../pkl_data/yelp_reviews.pkl")
+    data_business = load_pickle("../pkl_data/yelp_business.pkl")
 
     print('unpacking attributes...')
     data_business_unpacked = unpack(data_business, 'attributes')
@@ -60,5 +60,5 @@ if __name__ == '__main__':
     rest_text_target_w_ids['target'] = rest_text_target_w_ids['starsrev'].map(str) + '-' + rest_text_target_w_ids['RestaurantsPriceRange2'].map(str)
     print('Done.')
     print('pickling df...')
-    rest_text_target_w_ids.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_W_ids_df.pkl")
+    rest_text_target_w_ids.to_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
     print('Done.')

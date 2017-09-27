@@ -14,7 +14,7 @@ df2 = df.iloc[list(range(1000000))]
 nlp = NlpTopicAnalysis(df2, textcol='text')
 
 print('processing...')
-nlp.process_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', filename='corpus_gdc')
+nlp.process_text('../pkl_data', filename='corpus_gdc')
 
 # nlp = NlpTopicAnalysis()
 # nlp.load_corpus('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', filename='corpus_gdc')

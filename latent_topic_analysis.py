@@ -371,16 +371,16 @@ if __name__ == '__main__':
 
     ''' NLP subset'''
     print('loading rest_text_target_w_ids_df...')
-    rest_text_target_w_ids_df = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_w_ids_df.pkl")
+    rest_text_target_w_ids_df = load_pickle("../pkl_data/rest_text_target_w_ids_df.pkl")
     print('Done.')
     g500 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=500]
     print(g500.info())
     nlp_g500 = NlpTopicAnalysis(df=g500, textcol='text', labelcol='target')
     print('processing restaurants_dfs...')
-    nlp_g500.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+    nlp_g500.process_text(filepath='../pkl_data', \
                             filename='g500_corpus', \
                             compression='gzip')
     print('writing to text file...')
-    nlp_g500.to_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/g500_text.txt', nlp_g500.text)
-    nlp_g500.to_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/g500_targets.txt', nlp_g500.labels)
+    nlp_g500.to_text('../pkl_data/g500_text.txt', nlp_g500.text)
+    nlp_g500.to_text('/../pkl_data/g500_targets.txt', nlp_g500.labels)
     print('Done.')
