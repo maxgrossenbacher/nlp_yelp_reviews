@@ -244,6 +244,9 @@ class NlpTopicAnalysis(object):
             plt.show()
         return
 
+    def topic_mat(self):
+        return get_doc_topic_matrix(self.tfidf, normalize=True)
+
     def lda_vis(self, n_words=30):
         '''
         DESC: Creates pyLDAvis figure. Requires LDA topic_analysis model

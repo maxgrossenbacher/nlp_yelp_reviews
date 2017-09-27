@@ -1,7 +1,6 @@
 import numpy as np
 import pandas as pd
 from latent_topic_analysis import NlpTopicAnalysis
-import restaurants_yelp
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import GradientBoostingClassifier
 import pickle
@@ -11,24 +10,37 @@ df = pd.read_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data
 
 print('sampling...')
 df.sample(frac=1)
-df2 = df.iloc[list(range(100000))]
+df2 = df.iloc[list(range(500000))]
 nlp = NlpTopicAnalysis(df2, textcol='text')
 
 print('processing...')
 nlp.process_text('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', filename='corpus_gdc')
 
+# nlp = NlpTopicAnalysis()
+# nlp.load_corpus('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', filename='corpus_gdc')
+
 print('vectorizing...')
 tfidf = nlp.vectorize(weighting='tfidf')
-X_train, X_test, y_train, y_text = train_test_split(tfidf.toarray(), df2['target'], stratify=labels)
+X_train, X_test, y_train, y_test = train_test_split(tfidf.toarray(), df2['target'], stratify=df2['target'])
+X_train2, X_test2, y_train2, y_test2 = train_test_split(tfidf.toarray(), df2['sentiment'], stratify=df2['sentiment'])
 gd = GradientBoostingClassifier()
+gd2 = GradientBoostingClassifier()
 
 print('fitting...')
-gd_model = gd.fit(X_train)
-print('score:',gd_model.score(X_test, y_test))
-print('probablitities:', gd_model.predict_proba(X_test))
+gd_model = gd.fit(X_train, y_train)
+gd2_model =gd2.fit(X_train2, y_train2)
+print('model accuracy score:',gd_model.score(X_test, y_test))
+print('model probabilites:', gd_model.predict_proba(X_test))
+print('model2 accuracy score:', gd2_model.score(X_test2, y_test2))
+print('model2 probabilites:', gd2_model.predict_proba(X_test2))
 
 print('pickling...')
-with open('gd_model.pkl', 'w') as f:
+with open('gd_model.pkl', 'wb') as f:
     pickle.dump(gd_model, f)
+
+print('pickling...')
+with open('gd2_model.pkl', 'wb') as f:
+    pickle.dump(gd2_model, f)
+
 
 print('Done.')
