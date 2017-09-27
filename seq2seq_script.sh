@@ -12,7 +12,7 @@ TRAIN_STEPS=1000
 MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
 PRED_DIR=${MODEL_DIR}/pred
 
-
+mkdir -p $MODEL_DIR
 python -m bin.train \
   --config_paths="
       ./example_configs/nmt_large.yml,
@@ -40,6 +40,7 @@ python -m bin.train \
   --train_steps $TRAIN_STEPS \
   --output_dir $MODEL_DIR
 
+mkdir -p ${PRED_DIR}
 python -m bin.infer \
   --tasks "
     - class: DecodeText" \
