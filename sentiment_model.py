@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     print('sampling...')
     df.sample(frac=1)
-    df2 = df.iloc[list(range(1000000))]
+    df2 = df.iloc[list(range(500000))]
     nlp = NlpTopicAnalysis(df2, textcol='text')
 
     print('processing...')
