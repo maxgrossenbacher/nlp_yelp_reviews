@@ -1,5 +1,13 @@
 # Method
 
+## Dependencies
+* textacy
+  * conda install -c conda-forge textacy
+* SpaCy
+  * conda install -c conda-forge spacy
+* pyLDAvis
+  * pip install pyldavis
+
 NlpTopicAnalysis.vectorize()
 Upon experimentation of many different min_df and max_df, it appears that a min_df of 10% and a max_df of 95% provides the best TF representation of Yelp reviews
 

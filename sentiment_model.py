@@ -6,7 +6,7 @@ from sklearn.ensemble import GradientBoostingClassifier
 import pickle
 
 
-df = pd.read_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_W_ids_df.pkl")
+df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
 
 print('sampling...')
 df.sample(frac=1)
@@ -46,8 +46,8 @@ print('model2 probabilites:', gd2_model.predict_proba(X_test2))
 print('model3 accuracy score:', gd3_model.score(X_test3, y_test3))
 print('model3 probabilites:', gd3_model.predict_proba(X_test3))
 
-print('model3 accuracy score:', gd4_model.score(X_test4, y_test4))
-print('model3 probabilites:', gd4_model.predict_proba(X_test4))
+print('model4 accuracy score:', gd4_model.score(X_test4, y_test4))
+print('model4 probabilites:', gd4_model.predict_proba(X_test4))
 
 print('pickling...')
 with open('gd_model.pkl', 'wb') as f:
