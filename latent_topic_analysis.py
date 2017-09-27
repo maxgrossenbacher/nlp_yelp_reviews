@@ -98,7 +98,7 @@ class NlpTopicAnalysis(object):
         if len(self.text) == 0:
             self._get_reviews_and_label()
         self.corpus = textacy.Corpus('en')
-        self.corpus.add_texts(texts=self.text, batch_size=1000, n_threads=7)
+        self.corpus.add_texts(texts=self.text, batch_size=1000, n_threads=-1)
         if filepath:
             self.corpus.save(filepath, filename, compression)
             print('Saved textacy corpus to filepath.')
