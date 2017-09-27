@@ -43,4 +43,5 @@ score2, probabilities2 = classifer(gd, tfidf.toarray(), df2['sentiment'], name='
 score3, probabilities3 = classifer(gd, tfidf.toarray(), df2['starsrev'], name='rating_model')
 score4, probabilities4 = classifer(gd, tfidf.toarray(), df2['useful'], name='useful_model')
 score5, probabilities5 = classifer(gd, tfidf.toarray(), df2['usefulness'], name='usefulness_model')
+score6, probabilities6 = classifer(gd, tfidf.toarray(), df2['RestaurantsPriceRange2'], name='price_model')
 print('Done.')
