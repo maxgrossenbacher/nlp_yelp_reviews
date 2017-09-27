@@ -66,3 +66,5 @@ python -m bin.infer \
       source_files:
         - $DEV_SOURCES" \
   > ${PRED_DIR}/predictions.txt
+
+  ./bin/tools/multi-bleu.perl ${DEV_TARGETS_REF} < ${PRED_DIR}/predictions.txt
