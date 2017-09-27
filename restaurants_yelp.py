@@ -55,7 +55,7 @@ if __name__ == '__main__':
     restaurant_df.reset_index(inplace=True)
     print('Done.')
     print('creating rest_text_target_w_ids df...')
-    rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2', 'sentiment']]
+    rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2', 'sentiment', 'useful', 'funny', 'cool']]
     rest_text_target_w_ids.dropna(inplace=True)
     rest_text_target_w_ids['target'] = rest_text_target_w_ids['starsrev'].map(str) + '-' + rest_text_target_w_ids['RestaurantsPriceRange2'].map(str)
     print('Done.')

@@ -9,8 +9,9 @@ The number of topics can very depending on the business and number of reviews a 
 ##Model 1
 
 ### GradientBoostingClassifier
-Trained on 500,000 randomly choose restaurant reviews from yelp
+Trained on 500,000 randomly chosen TF-IDF vectors of restaurant reviews from yelp
 * target = rating + price
+  * This is a combination of rating (1-5) and price range for a given restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
 * model accuracy score: 0.286992
 * pickle name: gd_model.pkl
 probabilities:
@@ -24,6 +25,9 @@ probabilities:
 
 
 * target = sentiment
+  * ratings of 4 or 5 --> positive
+  * ratings of 3 --> neutral
+  * ratings of 1 or 2 --> negative
 * model2 accuracy score: 0.71464799999999995
 * pickle name: gd2_model.pkl
 probabilities model 2:
