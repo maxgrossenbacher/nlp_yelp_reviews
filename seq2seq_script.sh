@@ -36,6 +36,7 @@ python -m bin.train \
        target_files:
         - $DEV_TARGETS" \
   --batch_size 32 \
+  --buckets 8,12,16,20,24,28,32,36,40 \
   --train_steps $TRAIN_STEPS \
   --output_dir $MODEL_DIR
 
