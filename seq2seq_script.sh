@@ -1,9 +1,7 @@
 #!/bin/bash
-
-cat ../nlp_yelp_reviews/txt_files/*.txt >> train_text.txt
-cat ../nlp_yelp_reviews/txt_label_files/*.txt >> train_label.txt
-
 TEXT_DIR=${HOME}/text
+cat ../nlp_yelp_reviews/txt_files/*.txt > ${TEXT_DIR}/train_text.txt
+cat ../nlp_yelp_reviews/txt_label_files/*.txt > ${TEXT_DIR}/train_label.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
@@ -17,12 +15,12 @@ ${TEXT_DIR}/vocab_train_text.txt
 
 VOCAB_SOURCE=${TEXT_DIR}/vocab_train_label.txt
 VOCAB_TARGET=${TEXT_DIR}/vocab_train_text.txt
-TRAIN_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/train_label.txt
-TRAIN_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
-DEV_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/train_label.txt
-DEV_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
+TRAIN_SOURCES=${TEXT_DIR}/train_text.txt
+TRAIN_TARGETS=${TEXT_DIR}/train_label.txt
+DEV_SOURCES=${TEXT_DIR}/train_text.txt
+DEV_TARGETS=${TEXT_DIR}/train_label.txt
 
-DEV_TARGETS_REF=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
+DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
 TRAIN_STEPS=1000
 
 MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
