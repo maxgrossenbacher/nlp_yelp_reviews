@@ -26,7 +26,7 @@ TRAIN_TARGETS=${TEXT_DIR}/train_label.txt
 DEV_SOURCES=${TEXT_DIR}/train_text.txt
 DEV_TARGETS=${TEXT_DIR}/train_label.txt
 
-DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
+# DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
 TRAIN_STEPS=1000
 
 MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
@@ -94,4 +94,4 @@ python -m bin.infer \
   -d ${TMPDIR:-/tmp}/beams.npz \
   -v ${TEXT_DIR}/vocab_train_text.txt
 
-  ./bin/tools/multi-bleu.perl ${DEV_TARGETS_REF} < ${PRED_DIR}/predictions.txt
+  ./bin/tools/multi-bleu.perl ${DEV_TARGETS} < ${PRED_DIR}/predictions.txt
