@@ -355,7 +355,7 @@ if __name__ == '__main__':
     print('Done.')
 
     count = 0
-    already_processed = ['Dx5P2QMpxDS6gIXguhAecg']
+    already_processed = ['Dx5P2QMpxDS6gIXguhAecg', 'PS5ghm09F2km76m4sQNJAw']
     for i in rest_ids:
         if i not in already_processed:
             reviews_i = business_reviews(df, 'business_id', i)
@@ -375,9 +375,10 @@ if __name__ == '__main__':
             np.savez('tf_vec/'+i, tf)
             nlp.word2vec()
             np.savez('doc2vec/'+i, nlp.doc_vectors)
-            nlp.topic_analysis(n_topics=7, model_type='lda', n_terms=50, n_highlighted_topics=3, plot=False, save='termiteplot_lda' + i)
-            plt.close('all')
-            nlp.lda_vis()
+            if len(nlp.text) > 100:
+                nlp.topic_analysis(n_topics=7, model_type='lda', n_terms=50, n_highlighted_topics=3, plot=False, save='termiteplot_lda' + i)
+                plt.close('all')
+                nlp.lda_vis()
             already_processed.append(i)
             count +=1
 
