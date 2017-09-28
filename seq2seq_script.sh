@@ -89,9 +89,9 @@ python -m bin.infer \
         - $DEV_SOURCES" \
   > ${PRED_DIR}/predictions.txt
 
-  python -m bin.tools.generate_beam_viz  \
-  -o ${TMPDIR:-/tmp}/beam_visualizations \
-  -d ${TMPDIR:-/tmp}/beams.npz \
-  -v ${TEXT_DIR}/vocab_train_text.txt
+  # python -m bin.tools.generate_beam_viz  \
+  # -o ${TMPDIR:-/tmp}/beam_visualizations \
+  # -d ${TMPDIR:-/tmp}/beams.npz \
+  # -v ${TEXT_DIR}/vocab_train_text.txt
 
   ./bin/tools/multi-bleu.perl ${DEV_TARGETS} < ${PRED_DIR}/predictions.txt
