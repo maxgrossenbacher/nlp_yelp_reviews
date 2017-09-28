@@ -19,15 +19,15 @@ ${TEXT_DIR}/vocab_train_text.txt
 ${TEXT_DIR}/vocab_train_label.txt
 
 
-VOCAB_SOURCE=${HOME}/text/vocab_train_text.txt
-VOCAB_TARGET=${HOME}/text/vocab_train_label.txt
-TRAIN_SOURCES=${HOME}/text/train_text.txt
-TRAIN_TARGETS=${HOME}/text/train_label.txt
-DEV_SOURCES=${HOME}/text/train_text.txt
-DEV_TARGETS=${HOME}/text/train_label.txt
+VOCAB_SOURCE=${TEXT_DIR}/train_text.txt
+VOCAB_TARGET=${TEXT_DIR}/train_label.txt
+TRAIN_SOURCES=${TEXT_DIR}/train_text.txt
+TRAIN_TARGETS=${TEXT_DIR}/train_label.txt
+DEV_SOURCES=${TEXT_DIR}/train_text.txt
+DEV_TARGETS=${TEXT_DIR}/train_label.txt
 
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
-TRAIN_STEPS=1000
+TRAIN_STEPS=10000
 
 MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
 PRED_DIR=${MODEL_DIR}/pred
