@@ -2,26 +2,29 @@
 
 ## Motivation
 
-Yelp is one of the most popular user review sites in the world.
+*Why is Natural Langauage Processing important?*  
+Approximately 80% of "business-relevant information originates in unstructured form, primarily text" ([breakthroughanalysis.com](https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/)). Obviously, if some company wants to utilize all this information, then they must be able to take this unstructured free text and turn it into something meaningful and actionable. Natural language processing (NLP) does exactly this!  
 
+Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigning, recommender systems and user experience with the site or app.  
 
+<sup> **SOURCES**  
+<sup> https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/</sup>
+</sup>  
 
 ## Overview
-
-#### Part 1:
-Create natural language processing pipeline
-
-### Part 2:
-Finding latent topics/keywords in yelp reviews
-
-#### Part 3:
-Use machine learning to create models to predict rating and usefulness of yelp reviews
+This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
+##### Question 1:
+Can I create build a scaleable and reusable natural language processing pipeline?
+##### Question 2:
+Can I find latent topics/keywords for business on Yelp based solely on user reviews of that business?
+##### Question 3:
+Can I use machine learning to create models to predict rating, usefulness and sentiment of yelp review?
 
 
 
 ## The Data:
 
-I used the Yelp data challenge 10 dataset made publicly available by Yelp. This data set comes with a reviews.json, business.json, checkin.json, users.json and photos.json. For this project, I focused on the reviews and businesses data.
+[Yelp's Challenge Dataset](https://www.yelp.com/dataset/challenge) provides access to millions of user reviews. This data set comes with a reviews.json, business.json, checkin.json, users.json and photos.json. For this project, I focused on the reviews and businesses data.
 
 I was able to isolate over ~3 M reviews of over 51,000 businesses containing the category keyword restaurant.
 
@@ -38,15 +41,12 @@ I was able to isolate over ~3 M reviews of over 51,000 businesses containing the
 |----------|:------:|--------:|
 | starsrev < 3 |  starsrev = 3 | starsrev > 3|
 
-- **RestaurantsPriceRange2***: price rating of a restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
-
-
+- **RestaurantsPriceRange2**: price rating of a restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
 
 
 ## Part 1:
 #### Building NLP Pipeline:
-Using the most reviewed business in the yelp dataset, I was able to build my NlpTopicAnalysis class. This class is designed to take a pandas DataFrame and create Textacy corpus of Spacy documents.  
-NlpTopicAnalysis makes it is easy to remove stop words and run tokenization, lemmatization and vectorizing operations to prepare nlp data for analysis.
+NlpTopicAnalysis is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words and run tokenization, lemmatization and vectorizing operations to prepare NLP data for analysis.
 
 ## Part 2:
 #### Keyword Detection of reviews:
@@ -59,7 +59,8 @@ Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these l
 
 ## Part 3:
 #### Machine learning classification of reviews:
-Using Sklearn's GradientBoostingClassifier, these models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
+##### Baseline:
+These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
 
 
   | name   |accuracy score      | target/label name |
@@ -69,6 +70,16 @@ Using Sklearn's GradientBoostingClassifier, these models were trained on 75,000 
   | usefulness_model |  0.62584  |  usefulness  |
   | price_model |  0.60988  |  RestaurantsPriceRange2  |
   | target_model |  0.27964  |  target*  |  
-<sup>**Target* is a combination of rating (1-5) and price range for a given restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)</sup>
+<sup>*Target* is a combination of rating and price range</sup>
 
 These models will be used as a baseline to which future models will be compared.
+##### GridSearch:
+A [grid search](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) for each target/label was run on four different classification models:  
+* [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
+* [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
+* [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
+* [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)
+
+##### Seq2Seq:
+
+## Conclusion & Future Directions:
