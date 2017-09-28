@@ -13,7 +13,8 @@ wc -l < ${TEXT_DIR}/train_label.txt
 < ${TEXT_DIR}/train_text.txt > \
 ${TEXT_DIR}/vocab_train_text.txt
 
-./bin/tools/generate_vocab.py --max_vocab_size 50000 \
+./bin/tools/generate_vocab.py \
+--max_vocab_size 50000 \
 < ${TEXT_DIR}/train_label.txt > \
 ${TEXT_DIR}/vocab_train_label.txt
 
@@ -71,20 +72,20 @@ python -m bin.infer \
         - $DEV_SOURCES" \
   > ${PRED_DIR}/predictions.txt
 
-# python -m bin.infer \
-#   --tasks "
-#     - class: DecodeText
-#     - class: DumpBeams
-#       params:
-#         file: ${PRED_DIR}/beams.npz" \
-#   --model_dir $MODEL_DIR \
-#   --model_params "
-#     inference.beam_search.beam_width: 5" \
-#   --input_pipeline "
-#     class: ParallelTextInputPipeline
-#     params:
-#       source_files:
-#         - $DEV_SOURCES" \
-#   > ${PRED_DIR}/predictions.txt
+python -m bin.infer \
+  --tasks "
+    - class: DecodeText
+    - class: DumpBeams
+      params:
+        file: ${PRED_DIR}/beams.npz" \
+  --model_dir $MODEL_DIR \
+  --model_params "
+    inference.beam_search.beam_width: 5" \
+  --input_pipeline "
+    class: ParallelTextInputPipeline
+    params:
+      source_files:
+        - $DEV_SOURCES" \
+  > ${PRED_DIR}/predictions.txt
 
   ./bin/tools/multi-bleu.perl ${DEV_TARGETS_REF} < ${PRED_DIR}/predictions.txt
