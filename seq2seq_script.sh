@@ -10,8 +10,9 @@ wc -l < ${TEXT_DIR}/train_label.txt
 --max_vocab_size 50000 \
 < ${TEXT_DIR}/train_text.txt > \
 ${TEXT_DIR}/vocab_train_text.txt
---max_vocab_size 50000 \
+
 ./bin/tools/generate_vocab.py \
+--max_vocab_size 50000 \
 < ${TEXT_DIR}/train_label.txt > \
 ${TEXT_DIR}/vocab_train_label.txt
 
