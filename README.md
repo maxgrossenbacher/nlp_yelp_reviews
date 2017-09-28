@@ -13,11 +13,11 @@ Social media is a burgeoning field built on the premise of human-to-human intera
 
 ## Overview
 This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
-##### Question 1:
+#### Question 1:
 Can I create build a scaleable and reusable natural language processing pipeline?
-##### Question 2:
+#### Question 2:
 Can I find latent topics/keywords for business on Yelp based solely on user reviews of that business?
-##### Question 3:
+#### Question 3:
 Can I use machine learning to create models to predict rating, usefulness and sentiment of yelp review?
 
 
@@ -59,7 +59,7 @@ Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these l
 
 ## Part 3:
 #### Machine learning classification of reviews:
-##### Baseline:
+#### Baseline:
 These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
 
 
@@ -73,13 +73,13 @@ These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/genera
 <sup>*Target* is a combination of rating and price range</sup>
 
 These models will be used as a baseline to which future models will be compared.
-##### GridSearch:
+#### GridSearch:
 A [grid search](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) for each target/label was run on four different classification models:  
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
 * [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)
 
-##### Seq2Seq:
+#### Seq2Seq:
 
 ## Conclusion & Future Directions:
