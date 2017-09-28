@@ -34,32 +34,23 @@ The number of topics can very depending on the business and number of reviews a 
 ##Model 1
 
 ### GradientBoostingClassifier
-Trained on 500,000 randomly chosen TF-IDF vectors of restaurant reviews from yelp
-* target = rating + price
+Trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from yelp
+
+* model target_model accuracy score: 0.27964
+* pickle name: target_model.pkl
+* label --> target = rating + price
   * This is a combination of rating (1-5) and price range for a given restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
-* model accuracy score: 0.286992
-* pickle name: gd_model.pkl
-probabilities:
-[[ 0.03495921  0.13957568  0.01405628 ...,  0.14261414  0.01703212, 0.00276594]
- [ 0.01557103  0.02011498  0.01157794 ...,  0.20121069  0.04308675, 0.00831571]
- [ 0.03646812  0.12580839  0.0092277  ...,  0.07689576  0.0072433, 0.00147423]
- ...,
- [ 0.07331464  0.20274931  0.02198528 ...,  0.04637214  0.0096605, 0.00358445]
- [ 0.0120366   0.0176673   0.00239195 ...,  0.22568942  0.01694309, 0.00252535]
- [ 0.00752734  0.01267515  0.00152356 ...,  0.21451662  0.01503242, 0.00222793]]
 
 
-* target = sentiment
-  * ratings of 4 or 5 --> positive
-  * ratings of 3 --> neutral
-  * ratings of 1 or 2 --> negative
-* model2 accuracy score: 0.71464799999999995
-* pickle name: gd2_model.pkl
-probabilities model 2:
-[[ 0.09607983  0.20593298  0.69798719]
- [ 0.0190285   0.0237046   0.9572669 ]
- [ 0.35552966  0.3001465   0.34432383]
- ...,
- [ 0.36171558  0.17060382  0.4676806 ]
- [ 0.2977544   0.13619129  0.56605432]
- [ 0.41116803  0.30834134  0.28049063]]
+* model sentiment_model accuracy score: 0.71992
+* pickle name: sentiment_model.pkl
+* label --> sentiment
+
+* model rating_model accuracy score: 0.47544
+* pickle name: rating_model.pkl
+
+* model usefulness_model accuracy score: 0.62584
+* pickle name: usefulness_model.pkl
+
+* model price_model accuracy score: 0.60988
+* pickle name: price_model.pkl

@@ -8,6 +8,9 @@ from sklearn.decomposition import PCA
 import pyLDAvis
 import pyLDAvis.sklearn
 import restaurants_yelp
+from sqlalchemy import create_engine
+import psycopg2
+
 
 #Part 1 retriving reviews from pkl df
 def load_pickle(pkl):
@@ -36,9 +39,11 @@ def business_reviews(df, colname, business_id):
 
 def to_text(filepath, lst):
     with open(filepath, mode='wt', encoding='utf-8') as f:
-        f.write('\n'.join(lst))
+        f.write('笑\n'.join(lst))
     return
 
+def connect_psql(df, engine):
+    df.to_sql('yelp_restaurant_reviews', con=engine, if_exists='append', index=False)
 
 class NlpTopicAnalysis(object):
     """
@@ -48,16 +53,18 @@ class NlpTopicAnalysis(object):
         textcol: (str) name of column in pandas DataFrame where text are located
         labelcol: (str) name of column in pandas DataFrame where labels are located
     """
-    def __init__(self, df=None, textcol=None, labelcol=None):
+    def __init__(self, df=None, textcol=None, labelcol=None, labelcol2=None):
         self.spacy = spacy.load('en')
         self.df = df
         self.textcol = textcol
         self.labelcol = labelcol
+        self.labelcol2 = labelcol2
         self.vectorizer = None
         self.corpus = None
         self.model = None
         self.text = []
         self.label = []
+        self.label2=[]
         self.pca_mat = None
         self.tfidf = None
         self.topic_matrix = None
@@ -80,6 +87,8 @@ class NlpTopicAnalysis(object):
             self.text.append(self.df[self.textcol].iloc[i])
             if self.labelcol:
                 self.label.append(self.df[self.labelcol].iloc[i])
+            if self.labelcol2:
+                self.label2.append(self.df[self.labelcol2].iloc[i])
         return
 
 
@@ -224,28 +233,27 @@ class NlpTopicAnalysis(object):
         self.topic_matrix = self.model.transform(self.tfidf)
         for topic_idx, top_terms in self.model.top_topic_terms(self.vectorizer.feature_names, topics=range(n_topics), weights=False):
             self.latent_topics_top_terms[topic_idx] = top_terms
-            print('Topic {}: {}' .format(topic_idx, top_terms))
+            # print('Topic {}: {}' .format(topic_idx, top_terms))
         for topic, weight in enumerate(self.model.topic_weights(self.topic_matrix)):
             self.topic_w_weights[topic] = weight
             highlighting[weight] = topic
             # print('Topic {} has weight: {}' .format(topic, weight))
+
+        sort_weights = sorted(highlighting.keys())[::-1]
+        highlight = [highlighting[i] for i in sort_weights[:n_highlighted_topics]]
+        self.model.termite_plot(self.tfidf, \
+                                self.vectorizer.feature_names, \
+                                topics=-1,  \
+                                n_terms=n_terms, \
+                                highlight_topics=highlight)
+        plt.tight_layout()
+        print('plotting...')
+        if save:
+            plt.savefig(save)
         if plot:
-            sort_weights = sorted(highlighting.keys())[::-1]
-            highlight = [highlighting[i] for i in sort_weights[:n_highlighted_topics]]
-            self.model.termite_plot(self.tfidf, \
-                                    self.vectorizer.feature_names, \
-                                    topics=-1,  \
-                                    n_terms=n_terms, \
-                                    highlight_topics=highlight)
-            plt.tight_layout()
-            print('plotting...')
-            if save:
-                plt.savefig(save)
             plt.show()
         return
 
-    def topic_mat(self):
-        return get_doc_topic_matrix(self.tfidf, normalize=True)
 
     def lda_vis(self, n_words=30):
         '''
@@ -283,9 +291,9 @@ class NlpTopicAnalysis(object):
                                         R=n_words, \
                                         mds='mmds', \
                                         sort_topics=False)
-        pyLDAvis.save_html(self.ldavis, 'pyLDAvis_4JNXUYY8wbaaDmk3BPzlWw')
+        pyLDAvis.save_html(self.ldavis, 'pyLDAvis_'+i)
         print('plotting...')
-        pyLDAvis.show(self.ldavis)
+        # pyLDAvis.show(self.ldavis)
 
 if __name__ == '__main__':
     print('loaded NlpTopicAnalysis')
@@ -339,48 +347,54 @@ if __name__ == '__main__':
     # rest_text_target.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_df.pkl")
     # print('Done.')
 
-    '''NLP resturants df'''
-    # print('loading rest_text_target_df...')
-    # rest_text_target_df = load_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_df.pkl")
-    # print('Done.')
-    # nlp_rest = NlpTopicAnalysis(df=rest_text_target_df, textcol='text', labelcol='target')
-    # print('processing restaurants_dfs...')
-    # nlp_rest.process_text(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-    #                         filename='rest_text_tar_corpus', \
-    #                         compression='gzip')
-    # print('Done.')
+    '''latent topic analysis resturants df'''
+    print('loading rest_text_target_w_ids_df...')
+    df = load_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
+    df = df.sort_values(by='review_count', axis=0, ascending=False)
+    rest_ids = set(rest_id for rest_id in df['business_id'])
+    print('Done.')
+
+    count = 0
+    already_processed = ['Dx5P2QMpxDS6gIXguhAecg']
+    for i in rest_ids:
+        if i not in already_processed:
+            reviews_i = business_reviews(df, 'business_id', i)
+            engine = create_engine('postgresql+psycopg2://postgres@localhost:5432/yelp_data')
+            connect_psql(reviews_i, engine)
+            print('processing_' + i)
+            nlp = NlpTopicAnalysis(df=reviews_i, textcol='text', labelcol='target', labelcol2='usefulness')
+
+            print('processing review...' + i)
+            nlp.process_text(filepath='pkl_corps', \
+                                    filename='cor'+i, \
+                                    compression='gzip')
+            to_text('txt_files/text_'+i+'.txt', list(nlp.text))
+            to_text('txt_label_files/label_'+i+'.txt', list(nlp.label))
+            to_text('txt_label2_files/label_'+i+'.txt', list(nlp.label2))
+            tf = nlp.vectorize()
+            np.savez('tf_vec/'+i, tf)
+            nlp.word2vec()
+            np.savez('doc2vec/'+i, nlp.doc_vectors)
+            nlp.topic_analysis(n_topics=7, model_type='lda', n_terms=50, n_highlighted_topics=3, plot=False, save='termiteplot_lda' + i)
+            plt.close('all')
+            nlp.lda_vis()
+            already_processed.append(i)
+            count +=1
 
     '''resturants_w_ids df...'''
-    # print('unpacking attributes...')
-    # data_business_unpacked = restaurants_yelp.unpack(data_business, 'attributes')
-    # print('Done.')
-    # print('merging dfs & finding restaurants...')
-    # merged_df = data_reviews.merge(data_business_unpacked, on='business_id', how='left', suffixes=['rev', 'bus'], sort=False, indicator=True)
-    # keywords = ['Restaurants']
-    # restaurant_df = restaurants_yelp.get_category(df=merged_df,keywords=keywords)
-    # restaurant_df.reset_index(inplace=True)
-    # print('Done.')
-    # print('creating rest_text_target_w_ids df...')
-    # rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2']]
-    # rest_text_target_w_ids.dropna(inplace=True)
-    # rest_text_target_w_ids['target'] = rest_text_target_w_ids['starsrev'].map(str) + '-' + rest_text_target_w_ids['RestaurantsPriceRange2'].map(str)
-    # print('Done.')
-    # print('pickling df...')
-    # rest_text_target_w_ids.to_pickle("/Users/gmgtex/Desktop/Galvanize/immersive/capstone/pkl_data/rest_text_target_W_ids_df.pkl")
-    # print('Done.')
 
     ''' NLP subset'''
-    print('loading rest_text_target_w_ids_df...')
-    rest_text_target_w_ids_df = load_pickle("../pkl_data/rest_text_target_w_ids_df.pkl")
-    print('Done.')
-    g500 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=500]
-    print(g500.info())
-    nlp_g500 = NlpTopicAnalysis(df=g500, textcol='text', labelcol='target')
-    print('processing restaurants_dfs...')
-    nlp_g500.process_text(filepath='../pkl_data', \
-                            filename='g500_corpus', \
-                            compression='gzip')
-    print('writing to text file...')
-    nlp_g500.to_text('../pkl_data/g500_text.txt', nlp_g500.text)
-    nlp_g500.to_text('/../pkl_data/g500_targets.txt', nlp_g500.labels)
-    print('Done.')
+    # print('loading rest_text_target_w_ids_df...')
+    # rest_text_target_w_ids_df = load_pickle("../pkl_data/rest_text_target_w_ids_df.pkl")
+    # print('Done.')
+    # g500 = rest_text_target_w_ids_df[rest_text_target_w_ids_df['review_count'] >=500]
+    # print(g500.info())
+    # nlp_g500 = NlpTopicAnalysis(df=g500, textcol='text', labelcol='target')
+    # print('processing restaurants_dfs...')
+    # nlp_g500.process_text(filepath='../pkl_data', \
+    #                         filename='g500_corpus', \
+    #                         compression='gzip')
+    # print('writing to text file...')
+    # nlp_g500.to_text('../pkl_data/g500_text.txt', nlp_g500.text)
+    # nlp_g500.to_text('/../pkl_data/g500_targets.txt', nlp_g500.labels)
+    # print('Done.')

@@ -22,7 +22,7 @@ if __name__ == '__main__':
 
     print('sampling...')
     df.sample(frac=1)
-    df2 = df.iloc[list(range(500000))]
+    df2 = df.iloc[list(range(100000))]
     nlp = NlpTopicAnalysis(df2, textcol='text')
 
     print('processing...')
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     score1, probabilities1 = classifer(gd, tfidf.toarray(), df2['target'], name='target_model')
     score2, probabilities2 = classifer(gd, tfidf.toarray(), df2['sentiment'], name='sentiment_model')
     score3, probabilities3 = classifer(gd, tfidf.toarray(), df2['starsrev'], name='rating_model')
-    score4, probabilities4 = classifer(gd, tfidf.toarray(), df2['useful'], name='useful_model')
+    # score4, probabilities4 = classifer(gd, tfidf.toarray(), df2['useful'], name='useful_model')
     score5, probabilities5 = classifer(gd, tfidf.toarray(), df2['usefulness'], name='usefulness_model')
     score6, probabilities6 = classifer(gd, tfidf.toarray(), df2['RestaurantsPriceRange2'], name='price_model')
     print('Done.')

@@ -1,6 +1,10 @@
 import pandas as pd
 import numpy as np
 
+
+
+
+
 def load_pickle(pkl):
     '''
     DESC: Load a pickled pandas DataFrame
@@ -13,11 +17,12 @@ def load_pickle(pkl):
     return pd.read_pickle(pkl)
 
 def unpack(df, column, fillna=None):
-    upacked = None
     if fillna is None:
         unpacked = pd.concat([df, pd.DataFrame((d for idx, d in df[column].items()))], axis=1)
+        del unpacked[column]
     else:
         unpacked = pd.concat([df, pd.DataFrame((d for idx, d in df[column].items())).fillna(fillna)], axis=1)
+        del unpacked[column]
     return unpacked
 
 def get_category(df, keywords, category='categories', b_ids='business_id', textcol='text', labels=['stars','RestaurantsPriceRange2','business_id']):
@@ -44,6 +49,7 @@ if __name__ == '__main__':
 
     print('unpacking attributes...')
     data_business_unpacked = unpack(data_business, 'attributes')
+    print(data_business_unpacked.columns)
     print('Done.')
     print('creating sentiment col...')
     data_reviews['sentiment'] = data_reviews['stars'].apply(lambda x: 'negative'if x <3 else ('neutral' if x==3 else 'positive'))
@@ -55,8 +61,10 @@ if __name__ == '__main__':
     restaurant_df = get_category(df=merged_df,keywords=keywords)
     restaurant_df.reset_index(inplace=True)
     print('Done.')
+
+
     print('creating rest_text_target_w_ids df...')
-    rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2', 'sentiment', 'useful', 'funny', 'cool']]
+    rest_text_target_w_ids = restaurant_df[['business_id','review_count','text', 'starsrev', 'RestaurantsPriceRange2', 'sentiment', 'useful', 'funny', 'cool', 'usefulness']]
     rest_text_target_w_ids.dropna(inplace=True)
     rest_text_target_w_ids['target'] = rest_text_target_w_ids['starsrev'].map(str) + '-' + rest_text_target_w_ids['RestaurantsPriceRange2'].map(str)
     print('Done.')
