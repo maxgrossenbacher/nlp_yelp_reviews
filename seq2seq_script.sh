@@ -40,7 +40,6 @@ python -m bin.train \
       ./example_configs/train_seq2seq.yml,
       ./example_configs/text_metrics_bpe.yml" \
   --model_params "
-      source.max_seq_len = 100
       vocab_source: $VOCAB_SOURCE
       vocab_target: $VOCAB_TARGET" \
   --input_pipeline_train "
