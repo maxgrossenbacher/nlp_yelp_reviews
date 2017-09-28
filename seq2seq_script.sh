@@ -27,9 +27,9 @@ DEV_SOURCES=${TEXT_DIR}/train_text.txt
 DEV_TARGETS=${TEXT_DIR}/train_label.txt
 
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
-TRAIN_STEPS=10000
+TRAIN_STEPS=5000
 
-MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
+MODEL_DIR=${HOME}/models
 PRED_DIR=${MODEL_DIR}/pred
 
 
