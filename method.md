@@ -31,7 +31,7 @@ The number of topics can very depending on the business and number of reviews a 
   * neutral     --> if starsrev = 3
   * negative    --> if starsrev = (1-2)
 
-##Model 1
+## Model 1
 
 ### GradientBoostingClassifier
 Trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from yelp
@@ -41,16 +41,22 @@ Trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from yelp
 * label --> target = rating + price
   * This is a combination of rating (1-5) and price range for a given restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
 
-
+---------------
 * model sentiment_model accuracy score: 0.71992
 * pickle name: sentiment_model.pkl
 * label --> sentiment
 
+---------------
 * model rating_model accuracy score: 0.47544
 * pickle name: rating_model.pkl
+* label --> starsrev
 
+---------------
 * model usefulness_model accuracy score: 0.62584
 * pickle name: usefulness_model.pkl
+* label --> usefulness
 
+--------------
 * model price_model accuracy score: 0.60988
 * pickle name: price_model.pkl
+* label --> RestaurantsPriceRange2
