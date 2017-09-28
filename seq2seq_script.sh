@@ -1,23 +1,28 @@
 #!/bin/bash
 
+cat ../nlp_yelp_reviews/txt_files/*.txt >> train_text.txt
+cat ../nlp_yelp_reviews/txt_label_files/*.txt >> train_label.txt
+
 TEXT_DIR=${HOME}/text
 
 ./bin/tools/generate_vocab.py \
-< ../nlp_yelp_reviews/txt_label_files/label_02EYqwh47uVxOaOKrnx8SQ.txt > \
-${TEXT_DIR}/vocab.label_02EYqwh47uVxOaOKrnx8SQ
+--max_vocab_size 50000 \
+< ../nlp_yelp_reviews/txt_label_files/train_label.txt > \
+${TEXT_DIR}/vocab_train_label.txt
+--max_vocab_size 50000 \
 ./bin/tools/generate_vocab.py \
-< ../nlp_yelp_reviews/txt_files/text_02EYqwh47uVxOaOKrnx8SQ.txt > \
-${TEXT_DIR}/vocab.vocab.text_02EYqwh47uVxOaOKrnx8SQ
+< ../nlp_yelp_reviews/txt_files/train_text.txt > \
+${TEXT_DIR}/vocab_train_text.txt
 
 
-VOCAB_SOURCE=${TEXT_DIR}/vocab.label_02EYqwh47uVxOaOKrnx8SQ
-VOCAB_TARGET=${TEXT_DIR}/vocab.vocab.text_02EYqwh47uVxOaOKrnx8SQ
-TRAIN_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/label_02EYqwh47uVxOaOKrnx8SQ.txt
-TRAIN_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/text_02EYqwh47uVxOaOKrnx8SQ.txt
-DEV_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/label_-nTx2BHQsQvSTC9IuTdfmw.txt
-DEV_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/text_-nTx2BHQsQvSTC9IuTdfmw.txt
+VOCAB_SOURCE=${TEXT_DIR}/vocab_train_label.txt
+VOCAB_TARGET=${TEXT_DIR}/vocab_train_text.txt
+TRAIN_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/train_label.txt
+TRAIN_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
+DEV_SOURCES=${HOME}/nlp_yelp_reviews/txt_label_files/train_label.txt
+DEV_TARGETS=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
 
-DEV_TARGETS_REF=${HOME}/nlp_yelp_reviews/txt_files/text_02Aeak_LHFO8qzfFzzZnMw.txt
+DEV_TARGETS_REF=${HOME}/nlp_yelp_reviews/txt_files/train_text.txt
 TRAIN_STEPS=1000
 
 MODEL_DIR=${TMPDIR:-/tmp}/nmt_tutorial
