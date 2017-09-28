@@ -94,4 +94,4 @@ python -m bin.infer \
   # -d ${TMPDIR:-/tmp}/beams.npz \
   # -v ${TEXT_DIR}/vocab_train_text.txt
 
-  ./seq2seq/metrics/bleu.py ${DEV_TARGETS} < ${PRED_DIR}/predictions.txt
+  ./bin/tools/multi-bleu.perl ${DEV_TARGETS_REF} < ${PRED_DIR}/predictions.txt
