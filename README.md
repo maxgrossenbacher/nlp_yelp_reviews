@@ -24,15 +24,47 @@ I used the Yelp data challenge 10 dataset made publicly available by Yelp. This 
 
 I was able to isolate over 2,000,000 reviews of ~51,000 businesses containing the category keyword restaurant.
 
+#### Feature engineering
+- **usefulness**: distinguish between useful and very-useful was somewhat arbitrary. I was trying to find ranges that would create more balanced classes.
+
+|not_useful|useful|very_useful|
+|----------|:------:|--------:|
+| useful = 0 |  0 < useful < 5 | useful >= 5|
+
+- **sentiment**: grouping star rankings into more broad classes
+
+|negative|neutral|positive|
+|----------|:------:|--------:|
+| starsrev < 3 |  starsrev = 3 | starsrev > 3|
+
+- **RestaurantsPriceRange2***: price rating of a restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
+
+
+
 
 ## Part 1:
-Proof of concept:
-Using the most reviewed business in the yelp dataset, I was able to build my NlpTopicAnalysis class. This class is designed to take a pandas DataFrame and create Textacy corpus of Spacy documents. Then, you can pass this corpus through a tf vectorizer in order to prepare the data for Latent Dirichlet Allocation in order to find latent topics in the user created reviews.
-Below is a termite plot of latent topics. The bigger the circle, the more important the term is to the topic.
+### Building NLP Pipeline:
+Using the most reviewed business in the yelp dataset, I was able to build my NlpTopicAnalysis class. This class is designed to take a pandas DataFrame and create Textacy corpus of Spacy documents.
+NlpTopicAnalysis makes it is easy to run vectorizing operations to prepare nlp data for Latent Dirichlet Allocation.
+Below is a example termite plot of latent topics. The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics.
 ![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)
-Additionally, I was able to create a pyLDAvis interactive plot of these latent topics.
+Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these latent topics.
 
 ## Part 2:
-Using GloVe word2vec available through the Spacy library. I was able to create 300 feature representations of each Yelp review. Then using word_embeddings through tensorflow, I was able to create a 3d interative plot in which each review/point is labeled by rating and business_id. Tensorflow allows the user to choose if they prefer to use PCA or t-SNE dimensionality reduction of the 300-feature space into 2 or 3 dimensions.
+### Gradient Boosted Classifier:
+Using Sklearn's GradientBoostingClassifier, these models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
+
+
+  | name   |accuracy score      | target/label name |
+  | ------------- |:-------------:| -----:|
+  | sentiment_model |  0.71992  |  sentiment  |
+  | rating_model |  0.47544  |  starsrev  |
+  | usefulness_model |  0.62584  |  usefulness  |
+  | price_model |  0.60988  |  RestaurantsPriceRange2  |
+  | target_model |  0.27964  |  target*  |
+<sup>**Target* is a combination of rating (1-5) and price range for a given restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)</sup>
+
+These models will be used as a baseline to which future models will be compared.
+
 
 ## Part 3:
