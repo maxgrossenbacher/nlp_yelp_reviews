@@ -2,7 +2,9 @@
 TEXT_DIR=${HOME}/text
 mkdir -p ${TEXT_DIR}
 cat ../nlp_yelp_reviews/txt_files/*.txt > ${TEXT_DIR}/train_text.txt
+wc -l < ${TEXT_DIR}/train_text.txt
 cat ../nlp_yelp_reviews/txt_label_files/*.txt > ${TEXT_DIR}/train_label.txt
+wc -l < ${TEXT_DIR}/train_label.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
