@@ -10,28 +10,28 @@ wc -l < ${TEXT_DIR}/train_label.txt
 
 head -1 ${TEXT_DIR}/train_text.txt > data_test.20
 head -1 ${TEXT_DIR}/train_text.txt > data_train.80
-tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "${TEXT_DIR}/data.test.20"} else {print $0 >> "${TEXT_DIR}/data.train.80"}}'
+tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.20"} else {print $0 >> "data_train.80"}}'
 
 head -1 ${TEXT_DIR}/train_label.txt > data_test.labels.20
 head -1 ${TEXT_DIR}/train_label.txt > data_train.labels.80
-tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "${TEXT_DIR}/data_test.labels.20"} else {print $0 >> "${TEXT_DIR}/data_train.labels.80"}}'
+tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20"} else {print $0 >> "data_train.labels.80"}}'
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
-< ${TEXT_DIR}/data_train.80 > \
+< data_train.80 > \
 ${TEXT_DIR}/vocab_train_text.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
-< ${TEXT_DIR}/data_train.labels.80 > \
+< data_train.labels.80 > \
 ${TEXT_DIR}/vocab_train_label.txt
 
 VOCAB_SOURCE=${TEXT_DIR}/vocab_train_text.txt
 VOCAB_TARGET=${TEXT_DIR}/vocab_train_label.txt
-TRAIN_SOURCES=${TEXT_DIR}/data_train.80
-TRAIN_TARGETS=${TEXT_DIR}/data_train.labels.80
-DEV_SOURCES=${TEXT_DIR}/data_test.20
-DEV_TARGETS=${TEXT_DIR}/data_test.labels.20
+TRAIN_SOURCES=data_train.80
+TRAIN_TARGETS=data_train.labels.80
+DEV_SOURCES=data_test.20
+DEV_TARGETS=data_test.labels.20
 
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
 TRAIN_STEPS=100000
