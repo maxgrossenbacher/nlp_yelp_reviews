@@ -23,12 +23,12 @@ wc -l < data_train.labels.80.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
-< data_train.80 > \
+< data_train.80.txt > \
 ${TEXT_DIR}/vocab_train_text.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
-< data_train.labels.80 > \
+< data_train.labels.80.txt > \
 ${TEXT_DIR}/vocab_train_label.txt
 
 VOCAB_SOURCE=${TEXT_DIR}/vocab_train_text.txt
