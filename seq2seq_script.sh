@@ -8,13 +8,13 @@ wc -l < ${TEXT_DIR}/train_text.txt
 for f in ../nlp_yelp_reviews/txt_label_files/*.txt; do (cat "${f}"; echo 笑) >> ${TEXT_DIR}/train_label.txt; done
 wc -l < ${TEXT_DIR}/train_label.txt
 
-head -1 ${TEXT_DIR}/train_text.txt > data_test.20
-head -1 ${TEXT_DIR}/train_text.txt > data_train.80
-tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.20"} else {print $0 >> "data_train.80"}}'
+head -1 ${TEXT_DIR}/train_text.txt > home/ubuntu/text/data_test.20
+head -1 ${TEXT_DIR}/train_text.txt > home/ubuntu/text/data_train.80
+tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "home/ubuntu/text/data_test.20"} else {print $0 >> "home/ubuntu/text/data_train.80"}}'
 
-head -1 ${TEXT_DIR}/train_label.txt > data_test.labels.20
-head -1 ${TEXT_DIR}/train_label.txt > data_train.labels.80
-tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20"} else {print $0 >> "data_train.labels.80"}}'
+head -1 ${TEXT_DIR}/train_label.txt > home/ubuntu/text/data_test.labels.20
+head -1 ${TEXT_DIR}/train_label.txt > home/ubuntu/text/data_train.labels.80
+tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "home/ubuntu/text/data_test.labels.20"} else {print $0 >> "home/ubuntu/text/data_train.labels.80"}}'
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
