@@ -46,7 +46,7 @@ I was able to isolate over ~3 M reviews of over 51,000 businesses containing the
 
 ## Part 1:
 #### Building NLP Pipeline:
-NlpTopicAnalysis is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words and run tokenization, lemmatization and vectorizing operations to prepare NLP data for analysis.
+[NlpTopicAnalysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words and run tokenization, lemmatization and vectorizing operations to prepare NLP data for analysis.
 
 ## Part 2:
 #### Keyword Detection of reviews:
@@ -60,7 +60,7 @@ Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these l
 ## Part 3:
 #### Machine learning classification of reviews:
 #### Baseline:
-These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
+These GradientBoostingClassifier models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
 
 
   | name   |accuracy | target/label name |
@@ -76,7 +76,7 @@ These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/genera
 
 These models will be used as a baseline to which future models will be compared.
 #### GridSearch:
-A [grid search](http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.GridSearchCV.html) for each target/label was run on four different classification models:  
+A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/grid_search.py) for each target/label was run on four different classification models:  
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
