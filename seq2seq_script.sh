@@ -8,16 +8,16 @@ wc -l < ${TEXT_DIR}/train_text.txt
 for f in ../nlp_yelp_reviews/txt_label_files/*.txt; do (cat "${f}"; echo 笑) >> ${TEXT_DIR}/train_label.txt; done
 wc -l < ${TEXT_DIR}/train_label.txt
 
-head -1 ${TEXT_DIR}/train_text.txt > data_test.20
-head -1 ${TEXT_DIR}/train_text.txt > data_train.80
-tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.20"} else {print $0 >> "data_train.80"}}'
+head -1 ${TEXT_DIR}/train_text.txt > data_test.20.txt
+head -1 ${TEXT_DIR}/train_text.txt > data_train.80.txt
+tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.20.txt"} else {print $0 >> "data_train.80.txt"}}'
 wc -l < data_test.20.txt
 wc -l < data_test.80.txt
 
 
-head -1 ${TEXT_DIR}/train_label.txt > data_test.labels.20
-head -1 ${TEXT_DIR}/train_label.txt > data_train.labels.80
-tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20"} else {print $0 >> "data_train.labels.80"}}'
+head -1 ${TEXT_DIR}/train_label.txt > data_test.labels.20.txt
+head -1 ${TEXT_DIR}/train_label.txt > data_train.labels.80.txt
+tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20.txt"} else {print $0 >> "data_train.labels.80.txt"}}'
 wc -l < data_test.labels.20.txt
 wc -l < data_train.labels.80.txt
 
@@ -33,10 +33,10 @@ ${TEXT_DIR}/vocab_train_label.txt
 
 VOCAB_SOURCE=${TEXT_DIR}/vocab_train_text.txt
 VOCAB_TARGET=${TEXT_DIR}/vocab_train_label.txt
-TRAIN_SOURCES=data_train.80
-TRAIN_TARGETS=data_train.labels.80
-DEV_SOURCES=data_test.20
-DEV_TARGETS=data_test.labels.20
+TRAIN_SOURCES=data_train.80.txt
+TRAIN_TARGETS=data_train.labels.80.txt
+DEV_SOURCES=data_test.20.txt
+DEV_TARGETS=data_test.labels.20.txt
 
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
 TRAIN_STEPS=100000
