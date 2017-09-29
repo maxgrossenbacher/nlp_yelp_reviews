@@ -80,6 +80,58 @@ A [grid search](http://scikit-learn.org/stable/modules/generated/sklearn.model_s
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
 * [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)
 
+usefulness
+(GradientBoostingClassifier(criterion='friedman_mse', init=None,
+                 learning_rate=0.1, loss='deviance', max_depth=3,
+                 max_features='sqrt', max_leaf_nodes=None,
+                 min_impurity_decrease=0.0, min_impurity_split=None,
+                 min_samples_leaf=1, min_samples_split=2,
+                 min_weight_fraction_leaf=0.0, n_estimators=500,
+                 presort='auto', random_state=None, subsample=1.0, verbose=0,
+                 warm_start=False),
+   {'learning_rate': 0.1, 'max_features': 'sqrt', 'n_estimators': 500},
+   0.61293333333333333),
+
+   target
+   ((SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+     max_iter=-1, probability=False, random_state=None, shrinking=True,
+     tol=0.001, verbose=False),
+   {'C': 10, 'kernel': 'linear', 'shrinking': True},
+   0.28620000000000001),
+
+   sentiment
+   ((SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
+     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+     max_iter=-1, probability=False, random_state=None, shrinking=True,
+     tol=0.001, verbose=False),
+   {'C': 10, 'kernel': 'linear', 'shrinking': True},
+   0.73260000000000003),
+
+
+  rating
+  ((SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
+     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
+     max_iter=-1, probability=False, random_state=None, shrinking=True,
+     tol=0.001, verbose=False),
+   {'C': 1, 'kernel': 'linear', 'shrinking': True},
+   0.48039999999999999)
+
+
+   price
+   ((RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
+              max_depth=None, max_features='sqrt', max_leaf_nodes=None,
+              min_impurity_decrease=0.0, min_impurity_split=None,
+              min_samples_leaf=1, min_samples_split=2,
+              min_weight_fraction_leaf=0.0, n_estimators=1000, n_jobs=1,
+              oob_score=False, random_state=None, verbose=0,
+              warm_start=False),
+  {'max_features': 'sqrt', 'n_estimators': 1000},
+  0.58733333333333337),
+
+
+
+
 #### Seq2Seq:
 
 ## Conclusion & Future Directions:
