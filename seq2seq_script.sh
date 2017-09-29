@@ -9,9 +9,9 @@ for f in ../nlp_yelp_reviews/txt_label_files/*.txt; do (cat "${f}"; echo 笑) >>
 wc -l < ${TEXT_DIR}/train_label.txt
 
 
-${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 > "data.test.20"} else {print $0 > "data.train.80"}}'
+cat ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 > "data.test.20"} else {print $0 > "data.train.80"}}'
 
-${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 > "data_test.labels.20"} else {print $0 > "data_train.labels.80"}}'
+cat ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 > "data_test.labels.20"} else {print $0 > "data_train.labels.80"}}'
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
