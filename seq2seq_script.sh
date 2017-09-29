@@ -11,10 +11,15 @@ wc -l < ${TEXT_DIR}/train_label.txt
 head -1 ${TEXT_DIR}/train_text.txt > data_test.20
 head -1 ${TEXT_DIR}/train_text.txt > data_train.80
 tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.20"} else {print $0 >> "data_train.80"}}'
+wc -l < data_test.20.txt
+wc -l < data_test.80.txt
+
 
 head -1 ${TEXT_DIR}/train_label.txt > data_test.labels.20
 head -1 ${TEXT_DIR}/train_label.txt > data_train.labels.80
 tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20"} else {print $0 >> "data_train.labels.80"}}'
+wc -l < data_test.labels.20.txt
+wc -l < data_train.labels.80.txt
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
