@@ -1,12 +1,12 @@
 #!/bin/bash
-TEXT_DIR=${HOME}/text
+TEXT_DIR=${HOME}/Desktop/Galvanize/Immersive/capstone/seq2seq/text
 mkdir -p ${TEXT_DIR}
 # cat ../nlp_yelp_reviews/txt_files/*.txt > ${TEXT_DIR}/train_text.txt
 for f in ../nlp_yelp_reviews/txt_files/*.txt; do (cat "${f}"; echo 笑) >> ${TEXT_DIR}/train_text.txt; done
-wc -l < ${TEXT_DIR}/train_text.txt
 # cat ../nlp_yelp_reviews/txt_label_files/*.txt > ${TEXT_DIR}/train_label.txt
 for f in ../nlp_yelp_reviews/txt_label_files/*.txt; do (cat "${f}"; echo 笑) >> ${TEXT_DIR}/train_label.txt; done
 wc -l < ${TEXT_DIR}/train_label.txt
+
 
 head -1 ${TEXT_DIR}/train_text.txt > data_test.20.txt
 head -1 ${TEXT_DIR}/train_text.txt > data_train.80.txt
@@ -27,6 +27,7 @@ wc -l < data_train.labels.80.txt
 ${TEXT_DIR}/vocab_train_text.txt
 
 ./bin/tools/generate_vocab.py \
+--delimiter "" \
 --max_vocab_size 50000 \
 < data_train.labels.80.txt > \
 ${TEXT_DIR}/vocab_train_label.txt
@@ -41,7 +42,7 @@ DEV_TARGETS=data_test.labels.20.txt
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
 TRAIN_STEPS=100000
 
-MODEL_DIR=${HOME}/models
+MODEL_DIR=${HOME}//Desktop/Galvanize/Immersive/capstone/seq2seq/max_models
 PRED_DIR=${MODEL_DIR}/pred
 
 
@@ -92,7 +93,7 @@ python -m bin.infer \
         file: ${PRED_DIR}/beams.npz" \
   --model_dir $MODEL_DIR \
   --model_params "
-    inference.beam_search.beam_width: 5" \
+    inference.beam_search.beam_width: 2" \
   --input_pipeline "
     class: ParallelTextInputPipeline
     params:

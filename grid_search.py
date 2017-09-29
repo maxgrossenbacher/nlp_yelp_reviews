@@ -52,3 +52,8 @@ if __name__ == '__main__':
     grid_search_sentiment = [grid_search(tfidf, df2['sentiment'], est, params, cv=4) for est, params in estimators]
     print('grid searching price...')
     grid_search_price = [grid_search(tfidf, df2['RestaurantsPriceRange2'], est, params, cv=4) for est, params in estimators]
+
+
+    params, cvs = zip(*grid_search_usefulness)
+    usefulness_cv = pd.concat(cvs)
+    usefulness_cv.to_pickle('grid_cvs/usefulness_cv.pkl')

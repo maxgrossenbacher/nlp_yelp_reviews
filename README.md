@@ -63,13 +63,15 @@ Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these l
 These [GradientBoostingClassifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html) models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
 
 
-  | name   |accuracy score      | target/label name |
+  | name   |accuracy | target/label name |
   | ------------- |:-------------:| -----:|
-  | sentiment_model |  0.71992  |  sentiment  |
-  | rating_model |  0.47544  |  starsrev  |
-  | usefulness_model |  0.62584  |  usefulness  |
-  | price_model |  0.60988  |  RestaurantsPriceRange2  |
-  | target_model |  0.27964  |  target*  |  
+  | usefulness_model |  62.6%  |  usefulness  |
+  | target_model |  28.0%  |  target*  |
+  | sentiment_model |  72.0%  |  sentiment  |
+  | rating_model |  47.5%  |  starsrev (rating)  |
+  | price_model |  61.0%  |  RestaurantsPriceRange2 (price)  |
+
+
 <sup>*Target* is a combination of rating and price range</sup>
 
 These models will be used as a baseline to which future models will be compared.
@@ -78,56 +80,19 @@ A [grid search](http://scikit-learn.org/stable/modules/generated/sklearn.model_s
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
-* [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)
+* [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)  
 
-usefulness
-(GradientBoostingClassifier(criterion='friedman_mse', init=None,
-                 learning_rate=0.1, loss='deviance', max_depth=3,
-                 max_features='sqrt', max_leaf_nodes=None,
-                 min_impurity_decrease=0.0, min_impurity_split=None,
-                 min_samples_leaf=1, min_samples_split=2,
-                 min_weight_fraction_leaf=0.0, n_estimators=500,
-                 presort='auto', random_state=None, subsample=1.0, verbose=0,
-                 warm_start=False),
-   {'learning_rate': 0.1, 'max_features': 'sqrt', 'n_estimators': 500},
-   0.61293333333333333),
+Models were trained on 10,000 random user reviews with a 4-Fold cross validation
+#### Grid Search Best Models & Parameters
+| model   |       parameters        | accuracy | target/label name |
+| ------------- |:---------------------------------:|:-------------:|-----:|
+| GradientBoostingClassifier | {'learning_rate': 0.1, 'max_features': 'sqrt', 'n_estimators': 500} | 62.3% | usefulness |   
+| SVC | {'C': 10, 'kernel': 'linear', 'shrinking': True} | 29.1% | target |   
+| SVC | {'C': 10, 'kernel': 'linear', 'shrinking': True} | 73.3% | sentiment |
+| SVC | {'C': 1, 'kernel': 'linear', 'shrinking': True} | 48.0% | rating |
+| RandomForestClassifier | {'max_features': 'sqrt', 'n_estimators': 1000} | 58.7% | price |
 
-   target
-   ((SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
-     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
-     max_iter=-1, probability=False, random_state=None, shrinking=True,
-     tol=0.001, verbose=False),
-   {'C': 10, 'kernel': 'linear', 'shrinking': True},
-   0.28620000000000001),
-
-   sentiment
-   ((SVC(C=10, cache_size=200, class_weight=None, coef0=0.0,
-     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
-     max_iter=-1, probability=False, random_state=None, shrinking=True,
-     tol=0.001, verbose=False),
-   {'C': 10, 'kernel': 'linear', 'shrinking': True},
-   0.73260000000000003),
-
-
-  rating
-  ((SVC(C=1, cache_size=200, class_weight=None, coef0=0.0,
-     decision_function_shape='ovr', degree=3, gamma='auto', kernel='linear',
-     max_iter=-1, probability=False, random_state=None, shrinking=True,
-     tol=0.001, verbose=False),
-   {'C': 1, 'kernel': 'linear', 'shrinking': True},
-   0.48039999999999999)
-
-
-   price
-   ((RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
-              max_depth=None, max_features='sqrt', max_leaf_nodes=None,
-              min_impurity_decrease=0.0, min_impurity_split=None,
-              min_samples_leaf=1, min_samples_split=2,
-              min_weight_fraction_leaf=0.0, n_estimators=1000, n_jobs=1,
-              oob_score=False, random_state=None, verbose=0,
-              warm_start=False),
-  {'max_features': 'sqrt', 'n_estimators': 1000},
-  0.58733333333333337),
+<sup> Full Grid Search CVs can be found in grid_cvs </sup>
 
 
 
