@@ -10,11 +10,11 @@ wc -l < ${TEXT_DIR}/train_label.txt
 
 head -1 ${TEXT_DIR}/train_text.txt > ${TEXT_DIR}/data_test.20
 head -1 ${TEXT_DIR}/train_text.txt > ${TEXT_DIR}/data_train.80
-tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data.test.20"} else {print $0 >> "data.train.80"}}'
+tail -n+2 ${TEXT_DIR}/train_text.txt | awk '{if( NR % 10 <= 1){ print $0 >> "${TEXT_DIR}/data.test.20"} else {print $0 >> "${TEXT_DIR}/data.train.80"}}'
 
 head -1 ${TEXT_DIR}/train_label.txt > ${TEXT_DIR}/data_test.labels.20
 head -1 ${TEXT_DIR}/train_label.txt > ${TEXT_DIR}/data_train.labels.80
-tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "data_test.labels.20"} else {print $0 >> "data_train.labels.80"}}'
+tail -n+2 ${TEXT_DIR}/train_label.txt | awk '{if( NR % 10 <= 1){ print $0 >> "${TEXT_DIR}/data_test.labels.20"} else {print $0 >> "${TEXT_DIR}/data_train.labels.80"}}'
 
 ./bin/tools/generate_vocab.py \
 --max_vocab_size 50000 \
@@ -68,32 +68,32 @@ python -m bin.train \
   --output_dir $MODEL_DIR
 
 mkdir -p ${PRED_DIR}
+# python -m bin.infer \
+#   --tasks "
+#     - class: DecodeText" \
+#   --model_dir $MODEL_DIR \
+#   --input_pipeline "
+#     class: ParallelTextInputPipeline
+#     params:
+#       source_files:
+#         - $DEV_SOURCES" \
+#   > ${PRED_DIR}/predictions.txt
+
 python -m bin.infer \
   --tasks "
-    - class: DecodeText" \
+    - class: DecodeText
+    - class: DumpBeams
+      params:
+        file: ${PRED_DIR}/beams.npz" \
   --model_dir $MODEL_DIR \
+  --model_params "
+    inference.beam_search.beam_width: 5" \
   --input_pipeline "
     class: ParallelTextInputPipeline
     params:
       source_files:
         - $DEV_SOURCES" \
   > ${PRED_DIR}/predictions.txt
-
-# python -m bin.infer \
-#   --tasks "
-#     - class: DecodeText
-#     - class: DumpBeams
-#       params:
-#         file: ${PRED_DIR}/beams.npz" \
-#   --model_dir $MODEL_DIR \
-#   --model_params "
-#     inference.beam_search.beam_width: 5" \
-#   --input_pipeline "
-#     class: ParallelTextInputPipeline
-#     params:
-#       source_files:
-#         - $DEV_SOURCES" \
-  # > ${PRED_DIR}/predictions.txt
 
   # python -m bin.tools.generate_beam_viz  \
   # -o ${TMPDIR:-/tmp}/beam_visualizations \
