@@ -95,8 +95,9 @@ Models were trained on 10,000 random user reviews with a 4-Fold cross validation
 <sup> Full Grid Search CVs can be found in grid_cvs </sup>
 
 
-
-
 #### Seq2Seq:
+
+## Web App:
+[Yelp Review Scorer]() will process a Yelp-type review and output a sentiment, rating and usefulness score. Scores are based on the best models and parameters obtained after a grid search. Have fun!
 
 ## Conclusion & Future Directions:

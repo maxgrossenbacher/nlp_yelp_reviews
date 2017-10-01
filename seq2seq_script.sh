@@ -40,9 +40,9 @@ DEV_SOURCES=data_test.20.txt
 DEV_TARGETS=data_test.labels.20.txt
 
 # DEV_TARGETS_REF=${TEXT_DIR}/train_label.txt
-TRAIN_STEPS=100000
+TRAIN_STEPS=500000
 
-MODEL_DIR=${HOME}//Desktop/Galvanize/Immersive/capstone/seq2seq/max_models
+MODEL_DIR=${HOME}/Desktop/Galvanize/Immersive/capstone/seq2seq/max_models
 PRED_DIR=${MODEL_DIR}/pred
 
 
@@ -51,7 +51,7 @@ python -m bin.train \
   --config_paths="
       ./example_configs/nmt_small.yml,
       ./example_configs/train_seq2seq.yml,
-      ./example_configs/text_metrics_bpe.yml" \
+      ./example_configs/text_metrics_sp.yml" \
   --model_params "
       vocab_source: $VOCAB_SOURCE
       vocab_target: $VOCAB_TARGET" \

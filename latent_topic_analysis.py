@@ -53,7 +53,7 @@ class NlpTopicAnalysis(object):
         textcol: (str) name of column in pandas DataFrame where text are located
         labelcol: (str) name of column in pandas DataFrame where labels are located
     """
-    def __init__(self, df=None, textcol=None, labelcol=None, labelcol2=None):
+    def __init__(self, df=None, textcol=None, labelcol=None, labelcol2=None, text=[]):
         self.spacy = spacy.load('en')
         self.df = df
         self.textcol = textcol
@@ -62,7 +62,7 @@ class NlpTopicAnalysis(object):
         self.vectorizer = None
         self.corpus = None
         self.model = None
-        self.text = []
+        self.text = text
         self.label = []
         self.label2=[]
         self.pca_mat = None
