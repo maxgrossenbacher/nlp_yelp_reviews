@@ -30,29 +30,23 @@
               <nav class="nav nav-masthead">
                 <a class="nav-link" href="/">Home</a>
                 <a class="nav-link" href="/submit">Submit a Review</a>
-                <a class="nav-link" href="/explore">Explore</a>
+                <a class="nav-link active" href="/explore">Explore</a>
                 <a class="nav-link" href="/contact">Contact</a>
               </nav>
             </div>
           </div>
 
           <div class="inner cover">
-            <p></p>
-            <span style="color: white; font-weight: bold;">Review:</span>
-            <p style='color:yellow'>------------------------</p>
-            <p><font color='white'>{{ review }}</font></p>
-            <p style='color:yellow'>------------------------</p>
-            <span style="color: white; font-weight: bold;">Review Score</span>
-            <p style='color:white'>Usefulness Ratings:</p>
-            <p><font color='white'>{{useful}}</font></p>
-            <p style='color:white'>Sentiment Score:</p>
-            <p><font color='white'>{{sentiment}}</font></p>
-            <p style='color:white'>Suggested Rating:</p>
-            <p><font color='white'>{{rating}}</font></p>
-            <p class="lead">
-              <a href="/submit" class="btn btn-lg btn-secondary">Submit Another Review</a>
-            </p>
-
+            <h1 class="cover-heading">Submit a Business ID and Explore Latent Topics</h1>
+            <form name='business' action="/topic_analysis" method='POST'>
+              <select name="business">
+                <option value="{{ids[0]}}" selected>{{ids[0]}}</option>
+                {% for id in ids[1:] %}
+                  <option value="{{id}}">{{id}}</option>
+                {% endfor %}
+              </select>
+              <button type="submit">Search</button>
+            </form>
           </div>
 
 

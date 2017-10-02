@@ -39,46 +39,49 @@ if __name__ == '__main__':
     '''
     Sampling for sentiment model
     '''
-    print('sampling...')
-    df.sample(frac=1)
-    negative_df = df[df['sentiment'] == 'negative'] #random sample of user reviews
-    negative_sample = negative_df.sample(n=200000)
-    positive_df = df[df['sentiment'] == 'positive']
-    positive_sample = positive_df.sample(n=200000)
-    neutral_df = df[df['sentiment'] == 'neutral']
-    neutral_sample = neutral_df.sample(n=200000)
-    sentiment_df = pd.concat([negative_sample, positive_sample, neutral_sample])
-    sentiment_df.to_pickle('models/sentiment_df.pkl')
+    # print('sampling...')
+    # df.sample(frac=1)
+    # negative_df = df[df['sentiment'] == 'negative'] #random sample of user reviews
+    # negative_sample = negative_df.sample(n=200000)
+    # positive_df = df[df['sentiment'] == 'positive']
+    # positive_sample = positive_df.sample(n=200000)
+    # neutral_df = df[df['sentiment'] == 'neutral']
+    # neutral_sample = neutral_df.sample(n=200000)
+    # sentiment_df = pd.concat([negative_sample, positive_sample, neutral_sample])
+    # sentiment_df.to_pickle('models/sentiment_df.pkl')
 
     '''
     Sampling for rating model
     '''
-    # print('sampling...')
-    # df.sample(frac=1)
-    # df_1 = df[df['starsrev'] == 1] #random sample of user reviews
-    # sample_1 = df_1.sample(n=100000)
-    # df_2 = df[df['starsrev'] == 2]
-    # sample_2 = df_2.sample(n=100000)
-    # df_3 = df[df['starsrev'] == 3]
-    # sample_3 = df_3.sample(n=100000)
-    # df_5 = df[df['starsrev'] == 5]
-    # sample_5 = df_5.sample(n=100000)
-    # df_4 = df[df['starsrev'] == 4]
-    # sample_4 = df_4.sample(n=100000)
-    # rating_df = pd.concat([sample_1, sample_2, sample_3, sample_4, sample_5])
-    # rating_df.to_pickle('models/rating_df.pkl')
+    print('sampling...')
+    df.sample(frac=1)
+    df_1 = df[df['starsrev'] == 1] #random sample of user reviews
+    sample_1 = df_1.sample(n=100000)
+    df_2 = df[df['starsrev'] == 2]
+    sample_2 = df_2.sample(n=100000)
+    df_3 = df[df['starsrev'] == 3]
+    sample_3 = df_3.sample(n=100000)
+    df_5 = df[df['starsrev'] == 5]
+    sample_5 = df_5.sample(n=100000)
+    df_4 = df[df['starsrev'] == 4]
+    sample_4 = df_4.sample(n=100000)
+    rating_df = pd.concat([sample_1, sample_2, sample_3, sample_4, sample_5])
+    rating_df.to_pickle('models/rating_df.pkl')
 
     '''
     NLP prep for model training
     '''
-    nlp = NlpTopicAnalysis(sentiment_df, textcol='text')
+    nlp = NlpTopicAnalysis(rating_df, textcol='text')
     print('processing...')
-    nlp.process_text('../pkl_data', filename='sentiment_corpus')
+    nlp.process_text('../pkl_data', filename='rating_corpus')
     # nlp = NlpTopicAnalysis()
-    # nlp.load_corpus('../pkl_data', filename='training_optimization_data')
+    # nlp.load_corpus('../pkl_data', filename='rating_corpus')
     print('vectorizing...')
-    tfidf = nlp.vectorize(weighting='tfidf')
-    with open('sentiment_vectorizer.pkl', 'wb') as v:
+    # tfidf = nlp.vectorize(weighting='tfidf')
+    nlp.word2vec()
+    doc_vectors=nlp.doc_vectors
+    np.savez('doc_vectors_rating', doc_vectors)
+    with open('rating_vectorizer.pkl', 'wb') as v:
         pickle.dump(nlp.vectorizer, v)
     # df2 = pd.read_pickle("models/df_optimization_models.pkl")
 
@@ -130,11 +133,14 @@ if __name__ == '__main__':
     '''
     sentiment model optimized
     '''
-    svc_sent_opt = SVC(C=10, kernel='linear', shrinking=True)
-    classifer(svc_sent_opt, tfidf.toarray(), sentiment_df['sentiment'], name='sentiment_model_new_opt_svc.pkl')
+    # svc_sent_opt = SVC(C=10, kernel='linear', shrinking=True)
+    # classifer(svc_sent_opt, tfidf.toarray(), sentiment_df['sentiment'], name='sentiment_model_new_opt_svc.pkl')
     '''
     rating model optimized
     '''
-    # svc_rating = SVC(C=1,kernel='linear',shrinking=True)
-    # classifer(svc_rating, tfidf.toarray(), df2['starsrev'], name='rating_model_opt_svc.pkl')
+    gd_rating = GradientBoostingClassifier(learning_rate=0.1, max_features='sqrt', n_estimators=500)
+    classifer(gd_rating, doc_vectors, rating_df['starsrev'], name='rating_model_opt_svc.pkl')
     print('Done.')
+    # svc_rating = SVC(C=1,kernel='linear',shrinking=True)
+    # classifer(svc_rating, doc_vectors, rating_df['starsrev'], name='rating_model_word2vec_svc.pkl')
+    # print('Done.')
