@@ -37,11 +37,12 @@ Can I use machine learning to create models to predict rating, usefulness and se
 
 
 ## Part 1:
-### EDA & Building NLP Pipeline:
-This is a distribution of the average rating of all business compared to the average rating of restaurants in the Yelp business dataset. As you can see, restaurants are rated on average only slightly higher than the global business average rating.  
-![alt text](avg_rating.png)
-This is a distribution of rating of individual reviews for the 50 most rated restaurants in the Yelp reviews dataset. You can see a majority of reviews are rated 4 and 5 stars. This is consistent with the findings above: The average restaurant rating is ~3.7.  
+### EDA:
+This is a distribution of the average rating of all business compared to the average rating of restaurants in the Yelp business dataset. As you can see, restaurants are rated on average only slightly higher than the global business average rating.
+![alt text](avg_rating.png)  
+Below is a distribution of rating of individual reviews for the 50 most rated restaurants in the Yelp reviews dataset. You can see a majority of reviews are rated 4 and 5 stars. This is consistent with the findings above: the average restaurant rating is ~3.7.
 ![alt text](50_most_rated.png)
+### Building NLP Pipeline:
 [NlpTopicAnalysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words, tokenize and lemmatize words, and employ vectorizing operations to prepare text for analysis.
 
 ## Part 2:
