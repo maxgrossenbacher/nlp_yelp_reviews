@@ -15,7 +15,7 @@ Can I create build a scaleable and reusable natural language processing pipeline
 #### Question 2:
 Can I find latent topics/keywords for business on Yelp based solely on user reviews of that business?
 #### Question 3:
-Can I use machine learning to create models to predict rating, usefulness and sentiment of yelp review?
+Can I use machine learning to create models to predict rating, usefulness and sentiment of a yelp review?
 
 
 
@@ -50,25 +50,22 @@ I was able to isolate over ~3 M reviews of over 51,000 businesses containing the
 Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA.  
 <sup>A quick note: when modeling using LDA best results are achieved using term-freq (TF) matrix.</sup>  
 Below is a example termite plot of latent topics.  
-![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/termiteplot_lda2iTsRqUsPGRH1li1WVRvKQ.png)  
+![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)  
 
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
-Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_2iTsRqUsPGRH1li1WVRvKQ.html) of these latent topics.
+Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.
 
 ## Part 3:
 #### Machine learning classification of reviews:
 #### Baseline:
-These GradientBoostingClassifier models were trained on 75,000 randomly chosen TF-IDF vectors of restaurant reviews from Yelp. These 5 models each use the same randomly chosen reviews to predict a different target/label.
-
-
-  | name   |accuracy | target/label name |
-  | ------------- |:-------------:| -----:|
-  | usefulness_model |  62.6%  |  usefulness  |
-  | target_model |  28.0%  |  target*  |
-  | sentiment_model |  72.0%  |  sentiment  |
-  | rating_model |  47.5%  |  starsrev (rating)  |
-  | price_model |  61.0%  |  RestaurantsPriceRange2 (price)  |
-
+Multinomal Naive Bayes (http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.
+| Target/Label | Parameters | Mean Train Score | Mean Test Score |
+| :------------- |:-------------:| -----:|
+| usefulness | alpha = 1 | 44.5% | 44.5% |
+| sentiment | alpha = 1 | 54.7% | 54.2% |
+| rating | alpha = 1 | 34.2% | 43.7% |
+| price | alpha = 1 | 59.2% | 58.6% |
+| target* | alpha = 1 | 21.1% | 19.6% |  
 
 <sup>*Target* is a combination of rating and price range</sup>
 
@@ -78,27 +75,33 @@ A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
-* [Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB)  
 
-Models were trained on 10,000 random user reviews with a 4-Fold cross validation
 #### Grid Search Best Models & Parameters
-| model   |       parameters        | accuracy | target/label name |
-| ------------- |:---------------------------------:|:-------------:|-----:|
-| GradientBoostingClassifier | {'learning_rate': 0.1, 'max_features': 'sqrt', 'n_estimators': 500} | 62.3% | usefulness |   
-| SVC | {'C': 10, 'kernel': 'linear', 'shrinking': True} | 29.1% | target |   
-| SVC | {'C': 10, 'kernel': 'linear', 'shrinking': True} | 73.3% | sentiment |
-| SVC | {'C': 1, 'kernel': 'linear', 'shrinking': True} | 48.0% | rating |
-| RandomForestClassifier | {'max_features': 'sqrt', 'n_estimators': 1000} | 58.7% | price |
+Models were trained on 10,000 TF-IDF vectors generated from random user reviews with a 4-Fold cross validation. Once again, the weighted F1 score was used to account for possible imbalance in class.  
+| Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |
+| :-------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 99.1% | 57.9% |
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 82.3% | 67.6% |
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 77.3% | 43.9% |
+| price | Random Forest | max_features: sqrt; n_estimators: 500 | 98.7% | 65.1% |
+| target | SVC | C: 10; kernel: linear; shrinking: True | 32.9% | 28.3% |
 
 <sup> Full Grid Search CVs can be found in grid_cvs </sup>
 
-59.4% sentiment
-61.1% usefulness
+#### Final Models:
+Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class.
+| Target/Label | Model | Parameters | Accuracy | F1 score |
+| :-------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | **% |
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |
+
+Bag-of-words models v.s. Word2vec models
 
 
 #### Seq2Seq:
 
 ## Web App:
-[Yelp Review Scorer]() will process a Yelp-type review and output a sentiment, rating and usefulness score. Scores are based on the best models and parameters obtained after a grid search. Have fun!
+[Yelp Review Scorer]() will process a Yelp-type review and output a sentiment, rating and usefulness score. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
 
 ## Conclusion & Future Directions:
