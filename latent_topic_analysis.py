@@ -158,15 +158,15 @@ class NlpTopicAnalysis(object):
         for ind, doc in enumerate(self.corpus):
             print('going through doc {}...'.format(ind))
             doc_vects.append(doc.spacy_doc.vector)
-            for token in doc.spacy_doc:
-                if token.orth_ not in self.tokens:
-                    toks_vects.append(token.vector)
-                    self.tokens.append(token.orth_)
+            # for token in doc.spacy_doc:
+            #     if token.orth_ not in self.tokens:
+            #         toks_vects.append(token.vector)
+            #         self.tokens.append(token.orth_)
         print('creating arrays')
         print(len(doc_vects))
         self.doc_vectors = np.array(doc_vects)
-        print(len(toks_vects))
-        self.token_vectors = np.array(toks_vects)
+        # print(len(toks_vects))
+        # self.token_vectors = np.array(toks_vects)
         print('Done.')
 
 

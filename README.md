@@ -7,9 +7,6 @@ Approximately 80% of "business-relevant information originates in unstructured f
 
 Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigning, recommender systems and user experience with the site or app.  
 
-<sup> **SOURCES**  
-<sup> https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/</sup>
-</sup>  
 
 ## Overview
 This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
@@ -53,7 +50,7 @@ I was able to isolate over ~3 M reviews of over 51,000 businesses containing the
 Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA.  
 <sup>A quick note: when modeling using LDA best results are achieved using term-freq (TF) matrix.</sup>  
 Below is a example termite plot of latent topics.  
-![alt text](termiteplot_lda4JNXUYY8wbaaDmk3BPzlWw.png)  
+[alt text](/termiteplot_lda2iTsRqUsPGRH1li1WVRvKQ.png) #4JNXUYY8wbaaDmk3BPzlWw
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
 Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these latent topics.
 
@@ -93,6 +90,9 @@ Models were trained on 10,000 random user reviews with a 4-Fold cross validation
 | RandomForestClassifier | {'max_features': 'sqrt', 'n_estimators': 1000} | 58.7% | price |
 
 <sup> Full Grid Search CVs can be found in grid_cvs </sup>
+
+59.4% sentiment
+61.1% usefulness
 
 
 #### Seq2Seq:
