@@ -42,9 +42,7 @@ Can I use machine learning to create models to predict rating, usefulness and se
 
 ## Part 2:
 #### Keyword Detection of reviews:
-Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA.  
-<sup>A quick note: when modeling using LDA best results are achieved using term-freq (TF) matrix.</sup>  
-Below is a example termite plot of latent topics.  
+Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
 ![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)  
 
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
@@ -52,7 +50,7 @@ Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis
 ![alt text](pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada  
-<sup> This corresponds to topic 5 in the termite plot above.</sup>
+<sup> *This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
 #### Machine learning classification of reviews:
