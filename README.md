@@ -37,11 +37,11 @@ Can I use machine learning to create models to predict rating, usefulness and se
 
 
 ## Part 1:
-#### Building NLP Pipeline:
+### Building NLP Pipeline:
 [NlpTopicAnalysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words, tokenize and lemmatize words, and employ vectorizing operations to prepare text for analysis.
 
 ## Part 2:
-#### Keyword Detection of reviews:
+### Keyword Detection of reviews:
 Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
 ![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)  
 
@@ -53,7 +53,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 <sup> *This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
-#### Machine learning classification of reviews:
+### Classifying reviews using Machine learning:
 #### Baseline:
 Multinomal Naive Bayes (http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.
 | Target/Label | Parameters | Mean Train Score | Mean Test Score |
@@ -96,7 +96,7 @@ Balancing classes: based on EDA of the yelp reviews dataset, it is clear that so
 Bag-of-words models v.s. Word2vec models
 
 
-#### Seq2Seq:
+### Seq2Seq:
 
 ## Web App:
 [Yelp Review Scorer]() will process a Yelp-type review and output a sentiment, rating and usefulness score. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
