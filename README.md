@@ -50,7 +50,7 @@ Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis
 ![alt text](pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada  
-<sup> *This corresponds to topic 5 in the termite plot above.</sup>
+<sup> * This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
 ### Classifying reviews using Machine learning:
