@@ -20,29 +20,33 @@ Can I use machine learning to create models to predict rating, usefulness and se
 
 [Yelp's Challenge Dataset](https://www.yelp.com/dataset/challenge) provides access to millions of user reviews. I was able to isolate over ~3 M reviews of over 51,000 businesses containing the category keyword restaurant.
 
-#### Feature engineering
+#### Feature Engineering
 - **usefulness**: distinguish between useful and very-useful was somewhat arbitrary. I was trying to find ranges that would create more balanced classes.
 
 |not_useful|useful|very_useful|
-|----------|:------:|--------:|
+|:----------:|:------:|:--------:|
 | useful = 0 |  0 < useful < 5 | useful >= 5|
 
 - **sentiment**: grouping star rankings into more broad classes
 
 |negative|neutral|positive|
-|----------|:------:|--------:|
+|:----------:|:------:|:--------:|
 | starsrev < 3 |  starsrev = 3 | starsrev > 3|
 
 - **RestaurantsPriceRange2**: price rating of a restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
 
 
 ## Part 1:
-### Building NLP Pipeline:
+### EDA & Building NLP Pipeline:
+This is a distribution of the average rating of all business compared to the average rating of restaurants in the Yelp business dataset. As you can see, restaurants are rated on average only slightly higher than the global business average rating.  
+![alt text](avg_rating.png)
+This is a distribution of rating of individual reviews for the 50 most rated restaurants in the Yelp reviews dataset. You can see a majority of reviews are rated 4 and 5 stars. This is consistent with the findings above: The average restaurant rating is ~3.7.  
+![alt text](50_most_rated.png)
 [NlpTopicAnalysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words, tokenize and lemmatize words, and employ vectorizing operations to prepare text for analysis.
 
 ## Part 2:
-### Keyword Detection of reviews:
-Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
+### Latent Topic Analysis of Reviews:
+Once NLP data has been processed, NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
 ![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)  
 
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
@@ -53,7 +57,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 <sup> * This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
-### Classifying reviews using Machine learning:
+### Classifying Reviews Using Machine learning:
 #### Baseline:
 [Multinomal Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.  
 
@@ -68,7 +72,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 <sup>* Target is a combination of rating and price range</sup>
 
 These models will be used as a baseline to which future models will be compared.
-#### GridSearch:
+#### Grid Search:
 A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/grid_search.py) for each target/label was run on four different classification models:  
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
