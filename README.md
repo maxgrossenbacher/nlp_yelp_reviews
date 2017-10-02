@@ -59,13 +59,13 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 
 | Target/Label | Parameters | Mean Train Score | Mean Test Score |
 |:------------:|:----------:|:----------------:|:---------------:|
-| usefulness | alpha = 1 | 44.5% | 44.5% |
-| sentiment | alpha = 1 | 54.7% | 54.2% |
-| rating | alpha = 1 | 34.2% | 43.7% |
-| price | alpha = 1 | 59.2% | 58.6% |
-| target* | alpha = 1 | 21.1% | 19.6% |  
+| usefulness | alpha = 1 | 0.445 | 0.445 |
+| sentiment | alpha = 1 | 0.547 | 0.542 |
+| rating | alpha = 1 | 0.354 | 0.342 |
+| price | alpha = 1 | 0.592 | 0.586 |
+| target* | alpha = 1 | 0.211 | 0.196 |  
 
-<sup>*Target* is a combination of rating and price range</sup>
+<sup>* Target is a combination of rating and price range</sup>
 
 These models will be used as a baseline to which future models will be compared.
 #### GridSearch:
@@ -79,13 +79,13 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 
 | Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
 |:------------:|:-----:|:----------:|:----------------:|:---------------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 99.1% | 57.9% |  
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 82.3% | 67.6% |  
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 77.3% | 43.9% |  
-| price | Random Forest | max_features: sqrt; n_estimators: 500 | 98.7% | 65.1% |  
-| target | SVC | C: 10; kernel: linear; shrinking: True | 32.9% | 28.3% |  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 0.991 | 0.579 |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.823 | 0.676 |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.773 | 0.439 |  
+| price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.987 | 0.651 |  
+| target | SVC | C: 10; kernel: linear; shrinking: True | 0.329 | 0.283 |  
 
-<sup> Full Grid Search CVs can be found in grid_cvs </sup>
+<sup> * Full Grid Search CVs can be found in grid_cvs </sup>
 
 #### Final Models:
 Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class.  
