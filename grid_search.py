@@ -8,7 +8,7 @@ from sklearn.naive_bayes import MultinomialNB
 from latent_topic_analysis import NlpTopicAnalysis
 
 def grid_search(X, y, estimators, params_dict, cv):
-    search = GridSearchCV(estimators, params_dict, n_jobs=-1, cv=cv, scoring='accuracy')
+    search = GridSearchCV(estimators, params_dict, n_jobs=-1, cv=cv, scoring='f1_weighted')
     search.fit(X, y)
     search_df = pd.DataFrame(search.cv_results_)
     best_est = search.best_estimator_
@@ -17,12 +17,18 @@ def grid_search(X, y, estimators, params_dict, cv):
     best_est_summary = (best_est, best_params, best_score)
     return best_est_summary, search_df
 
+def creating_cv(lst, name):
+    params, cvs = zip(*lst)
+    usefulness_cv = pd.concat(cvs)
+    usefulness_cv.to_pickle('grid_cvs/' + name+'.pkl')
+
+
 if __name__ == '__main__':
     df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
 
     print('sampling...')
     df.sample(frac=1)
-    df2 = df.iloc[list(range(15000))]
+    df2 = df.iloc[list(range(10000))]
     nlp = NlpTopicAnalysis(df2, textcol='text')
 
     print('processing...')
@@ -44,16 +50,16 @@ if __name__ == '__main__':
 
     print('grid searching usefulness...')
     grid_search_usefulness = [grid_search(tfidf, df2['usefulness'], est, params, cv=4) for est, params in estimators]
+    creating_cv(grid_search_usefulness, 'usefulness')
     print('grid searching target...')
     grid_search_target = [grid_search(tfidf, df2['target'], est, params, cv=4) for est, params in estimators]
+    creating_cv(grid_search_target, 'target')
     print('grid searching rating...')
     grid_search_rating = [grid_search(tfidf, df2['starsrev'], est, params, cv=4) for est, params in estimators]
+    creating_cv(grid_search_rating, 'rating')
     print('grid searching sentiment...')
     grid_search_sentiment = [grid_search(tfidf, df2['sentiment'], est, params, cv=4) for est, params in estimators]
+    creating_cv(grid_search_sentiment, 'sentiment')
     print('grid searching price...')
     grid_search_price = [grid_search(tfidf, df2['RestaurantsPriceRange2'], est, params, cv=4) for est, params in estimators]
-
-
-    params, cvs = zip(*grid_search_usefulness)
-    usefulness_cv = pd.concat(cvs)
-    usefulness_cv.to_pickle('grid_cvs/usefulness_cv.pkl')
+    creating_cv(grid_search_price, 'price')

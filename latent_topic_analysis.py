@@ -291,19 +291,19 @@ class NlpTopicAnalysis(object):
                                         R=n_words, \
                                         mds='mmds', \
                                         sort_topics=False)
-        pyLDAvis.save_html(self.ldavis, 'pyLDAvis_'+i)
+        pyLDAvis.save_html(self.ldavis, 'pyLDAvis_most_reviewed')
         print('plotting...')
         # pyLDAvis.show(self.ldavis)
 
 if __name__ == '__main__':
     print('loaded NlpTopicAnalysis')
     #load pickled dfs
-    # print('loading reviews pkl...')
-    # data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
+    print('loading reviews pkl...')
+    data_reviews = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_reviews.pkl')
     # print('loading tips pkl...')
     # data_tips = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_tips.pkl')
-    # print('loading business pkl...')
-    # data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
+    print('loading business pkl...')
+    data_business = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_business.pkl')
     # print('loading user pkl...')
     # data_user = load_pickle('/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data/yelp_user.pkl')
     # print('loading checkin pkl...')
@@ -311,21 +311,22 @@ if __name__ == '__main__':
     print('Done.')
 
     ''' most rated business latent topic analysis'''
-    #business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
-    # print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
-    # reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
-    # print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
-    # print('Done.')
+    # business_id with most reviews 4JNXUYY8wbaaDmk3BPzlWw
+    print('collecting reviews of business_id: 4JNXUYY8wbaaDmk3BPzlWw...')
+    reviews_4JNXUYY8wbaaDmk3BPzlWw_df = business_reviews(data_reviews, 'business_id', '4JNXUYY8wbaaDmk3BPzlWw')
+    print(type(reviews_4JNXUYY8wbaaDmk3BPzlWw_df))
+    print('Done.')
 
-    # nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
-    # nlp = NlpTopicAnalysis()
-    # nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
-    #                 filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
-    #                 compression=None)
-    # print(nlp.corpus)
-    # nlp.vectorize()
-    # nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
-    # nlp.lda_vis()
+    nlp = NlpTopicAnalysis(reviews_4JNXUYY8wbaaDmk3BPzlWw_df, 'text', 'stars')
+    nlp = NlpTopicAnalysis()
+    nlp.load_corpus(filepath='/Users/gmgtex/Desktop/Galvanize/Immersive/capstone/pkl_data', \
+                    filename='corpus_4JNXUYY8wbaaDmk3BPzlWw', \
+                    compression=None)
+    print(nlp.corpus)
+    nlp.vectorize()
+    nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
+    nlp.lda_vis()
+    print('Done.')
 
     ''' Getting restaurants text and labels'''
     # print('unpacking attributes...')
@@ -348,39 +349,39 @@ if __name__ == '__main__':
     # print('Done.')
 
     '''latent topic analysis resturants df'''
-    print('loading rest_text_target_w_ids_df...')
-    df = load_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
-    df = df.sort_values(by='review_count', axis=0, ascending=False)
-    rest_ids = set(rest_id for rest_id in df['business_id'])
-    print('Done.')
-
-    count = 0
-    already_processed = ['Dx5P2QMpxDS6gIXguhAecg', 'PS5ghm09F2km76m4sQNJAw']
-    for i in rest_ids:
-        if i not in already_processed:
-            reviews_i = business_reviews(df, 'business_id', i)
-            engine = create_engine('postgresql+psycopg2://postgres@localhost:5432/yelp_data')
-            connect_psql(reviews_i, engine)
-            print('processing_' + i)
-            nlp = NlpTopicAnalysis(df=reviews_i, textcol='text', labelcol='target', labelcol2='usefulness')
-
-            print('processing review...' + i)
-            nlp.process_text(filepath='pkl_corps', \
-                                    filename='cor'+i, \
-                                    compression='gzip')
-            to_text('txt_files/text_'+i+'.txt', list(nlp.text))
-            to_text('txt_label_files/label_'+i+'.txt', list(nlp.label))
-            to_text('txt_label2_files/label_'+i+'.txt', list(nlp.label2))
-            tf = nlp.vectorize()
-            np.savez('tf_vec/'+i, tf)
-            nlp.word2vec()
-            np.savez('doc2vec/'+i, nlp.doc_vectors)
-            if len(nlp.text) > 100:
-                nlp.topic_analysis(n_topics=7, model_type='lda', n_terms=50, n_highlighted_topics=3, plot=False, save='termiteplot_lda' + i)
-                plt.close('all')
-                nlp.lda_vis()
-            already_processed.append(i)
-            count +=1
+    # print('loading rest_text_target_w_ids_df...')
+    # df = load_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
+    # df = df.sort_values(by='review_count', axis=0, ascending=False)
+    # rest_ids = set(rest_id for rest_id in df['business_id'])
+    # print('Done.')
+    #
+    # count = 0
+    # already_processed = ['Dx5P2QMpxDS6gIXguhAecg', 'PS5ghm09F2km76m4sQNJAw']
+    # for i in rest_ids:
+    #     if i not in already_processed:
+    #         reviews_i = business_reviews(df, 'business_id', i)
+    #         engine = create_engine('postgresql+psycopg2://postgres@localhost:5432/yelp_data')
+    #         connect_psql(reviews_i, engine)
+    #         print('processing_' + i)
+    #         nlp = NlpTopicAnalysis(df=reviews_i, textcol='text', labelcol='target', labelcol2='usefulness')
+    #
+    #         print('processing review...' + i)
+    #         nlp.process_text(filepath='pkl_corps', \
+    #                                 filename='cor'+i, \
+    #                                 compression='gzip')
+    #         to_text('txt_files/text_'+i+'.txt', list(nlp.text))
+    #         to_text('txt_label_files/label_'+i+'.txt', list(nlp.label))
+    #         to_text('txt_label2_files/label_'+i+'.txt', list(nlp.label2))
+    #         tf = nlp.vectorize()
+    #         np.savez('tf_vec/'+i, tf)
+    #         nlp.word2vec()
+    #         np.savez('doc2vec/'+i, nlp.doc_vectors)
+    #         if len(nlp.text) > 100:
+    #             nlp.topic_analysis(n_topics=7, model_type='lda', n_terms=50, n_highlighted_topics=3, plot=False, save='termiteplot_lda' + i)
+    #             plt.close('all')
+    #             nlp.lda_vis()
+    #         already_processed.append(i)
+    #         count +=1
 
     '''resturants_w_ids df...'''
 
