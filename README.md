@@ -77,25 +77,25 @@ A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master
 #### Grid Search Best Models & Parameters
 Models were trained on 10,000 TF-IDF vectors generated from random user reviews with a 4-Fold cross validation. Once again, the weighted F1 score was used to account for possible imbalance in class.  
 
-| Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |
-| -------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 99.1% | 57.9% |
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 82.3% | 67.6% |
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 77.3% | 43.9% |
-| price | Random Forest | max_features: sqrt; n_estimators: 500 | 98.7% | 65.1% |
-| target | SVC | C: 10; kernel: linear; shrinking: True | 32.9% | 28.3% |
+| Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
+| -------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 99.1% | 57.9% |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 82.3% | 67.6% |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 77.3% | 43.9% |  
+| price | Random Forest | max_features: sqrt; n_estimators: 500 | 98.7% | 65.1% |  
+| target | SVC | C: 10; kernel: linear; shrinking: True | 32.9% | 28.3% |  
 
 <sup> Full Grid Search CVs can be found in grid_cvs </sup>
 
 #### Final Models:
 Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class.  
-  
-| Target/Label | Model | Parameters | Accuracy | F1 score |
-| -------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | **% |
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |
 
+| Target/Label | Model | Parameters | Accuracy | F1 score |  
+| -------------|:--------:|:-------------:|:-------------:|:-------------:|-----:|  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | **% |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
+  
 Bag-of-words models v.s. Word2vec models
 
 
