@@ -51,9 +51,9 @@ Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling 
 <sup>A quick note: when modeling using LDA best results are achieved using term-freq (TF) matrix.</sup>  
 Below is a example termite plot of latent topics.  
 ![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/termiteplot_lda2iTsRqUsPGRH1li1WVRvKQ.png)  
-  
+
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
-Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these latent topics.
+Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_2iTsRqUsPGRH1li1WVRvKQ.html) of these latent topics.
 
 ## Part 3:
 #### Machine learning classification of reviews:
