@@ -55,7 +55,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 ## Part 3:
 ### Classifying reviews using Machine learning:
 #### Baseline:
-Multinomal Naive Bayes (http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.
+[Multinomal Naive Bayes] (http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.
 | Target/Label | Parameters | Mean Train Score | Mean Test Score |
 | :------------- |:-------------:| -----:|
 | usefulness | alpha = 1 | 44.5% | 44.5% |
