@@ -58,7 +58,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 [Multinomal Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.  
 
 | Target/Label | Parameters | Mean Train Score | Mean Test Score |
-|:-------------:|:-------------:|:-----:|
+|:------------:|:----------:|:----------------:|:---------------:|
 | usefulness | alpha = 1 | 44.5% | 44.5% |
 | sentiment | alpha = 1 | 54.7% | 54.2% |
 | rating | alpha = 1 | 34.2% | 43.7% |
@@ -78,7 +78,7 @@ A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master
 Models were trained on 10,000 TF-IDF vectors generated from random user reviews with a 4-Fold cross validation. Once again, the weighted F1 score was used to account for possible imbalance in class.  
 
 | Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
-|:-------------:|:--------:|:-------------:|:-------------:|:-------------:|:-----:|  
+|:------------:|:-----:|:----------:|:----------------:|:---------------:|
 | usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 99.1% | 57.9% |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 82.3% | 67.6% |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 77.3% | 43.9% |  
@@ -91,7 +91,7 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class.  
 
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
-|:-------------:|:--------:|:-------------:|:-------------:|:-------------:|:-----:|  
+|:------------:|:-----:|:----------:|:--------:|:--------:|
 | usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | **% |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
