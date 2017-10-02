@@ -50,8 +50,8 @@ Below is a example termite plot of latent topics.
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
 Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.  
 ![alt text](pyLDAvis_screenshot.png)  
-  
-We can see that topic 6 infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada.
+
+We can see that topic 6 infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada (this corresponds to topic 5 in the termite plot above).
 
 ## Part 3:
 #### Machine learning classification of reviews:
