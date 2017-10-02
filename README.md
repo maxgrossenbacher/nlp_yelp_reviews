@@ -50,7 +50,7 @@ I was able to isolate over ~3 M reviews of over 51,000 businesses containing the
 Once NLP data has been processed. NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA.  
 <sup>A quick note: when modeling using LDA best results are achieved using term-freq (TF) matrix.</sup>  
 Below is a example termite plot of latent topics.  
-![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/termiteplot_lda2iTsRqUsPGRH1li1WVRvKQ.png) #4JNXUYY8wbaaDmk3BPzlWw
+![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/termiteplot_lda2iTsRqUsPGRH1li1WVRvKQ.png)
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
 Additionally, NlpTopicAnalysis can create a interactive pyLDAvis plot of these latent topics.
 
