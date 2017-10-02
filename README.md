@@ -54,7 +54,7 @@ Once NLP data has been processed, NlpTopicAnalysis allows latent topic modeling 
 Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.  
 ![alt text](pyLDAvis_screenshot.png)  
 
-We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada  
+We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada.  
 <sup> * This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
@@ -74,7 +74,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 
 These models will be used as a baseline to which future models will be compared.
 #### Grid Search:
-A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/grid_search.py) for each target/label was run on four different classification models:  
+A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/grid_search.py) for each target/label was run on 3 different classification models:  
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
