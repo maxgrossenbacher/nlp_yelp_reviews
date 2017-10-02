@@ -43,7 +43,7 @@ This is a distribution of the average rating of all business compared to the ave
 Below is a distribution of rating of individual reviews for the 50 most rated restaurants in the Yelp reviews dataset. You can see a majority of reviews are rated 4 and 5 stars. This is consistent with the findings above: the average restaurant rating is ~3.7.
 ![alt text](50_most_rated.png)
 ### Building NLP Pipeline:
-[NlpTopicAnalysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) is designed to take a pandas DataFrame of free text and create Textacy corpus of Spacy documents. Using Spacy, NlpTopicAnalysis makes it is easy to remove stop words, tokenize and lemmatize words, and employ vectorizing operations to prepare text for analysis.
+[Yelp reviews were processed](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) using the library Textacy. Textacy allows for mutli-processing of documents using SpaCy. During text processing, stop words are removed, words are tokenized and lemmatized, and a vocabulary of terms is generated.
 
 ## Part 2:
 ### Latent Topic Analysis of Reviews:
