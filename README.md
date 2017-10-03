@@ -71,7 +71,7 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 ## Part 3:
 ### Classifying Reviews Using Machine learning:
 #### Baseline:
-[Multinomal Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. Models were trained on 10,000 TF-IDF vectors with 4-fold cross validation. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes.  
+[Multinomal Naive Bayes](http://scikit-learn.org/stable/modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB) is the standard Baseline model for Bag-of-words classification of text. Models were trained on 10,000 TF-IDF vectors with 4-fold cross validation. [Weighted F1 Score](http://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html) was used to account for possible imbalance in classes. These models will be used as a baseline to which future models will be compared.  
 
 | Target/Label | Parameters | Mean Train Score | Mean Test Score |
 |:------------:|:----------:|:----------------:|:---------------:|
@@ -83,7 +83,6 @@ We can see that topic 6* infers that this restaurant has a view of Bellagio Foun
 
 <sup>* Target is a combination of rating and price range</sup>
 
-These models will be used as a baseline to which future models will be compared.
 #### Grid Search:
 A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/grid_search.py) for each target/label was run on 3 different classification models:  
 * [Gradient Boosted Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html)
