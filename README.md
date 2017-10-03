@@ -116,14 +116,16 @@ Balancing classes: based on EDA of the yelp reviews dataset, it is clear that so
 ##### Doc2vec Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
 |:------------:|:-----:|:----------:|:--------:|:--------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.8% | ** |  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.9% | ** |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
-
 
 ### Seq2Seq:
 
 ## Web App:
-[Yelp Review Scorer]() will process a Yelp-type review and output a sentiment, rating and usefulness score. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
+[The Yelp Review Scorer]() will process a Yelp-type review and output a usefulness score, overall sentiment, and suggested rating. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
 
 ## Conclusion & Future Directions:
+Both Random Forest Classifier and Gradient Boosted Classifier out-preform the Multinomial Naive Bayes model. Using the optimized models, we see a 30%, 25% and 28% increase in weighted F1 score for predicting usefulness, sentiment and rating of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by $$,$$ and $$ respectively. The final models trained on ~300,000 doc2vec reviews...  
+These results exhibit the power of machine learning when coupled with natural language processing. Using The Yelp Review Scorer, users may score there model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.  
+Despite the relatively high accuracy and f1 scores, these models can continued to be improved. For instance, usefulness rating was based solely on the number of useful votes a review received at the time Yelp complied the challenge dataset. To improve this model's predictive ability, it would be helpful to collect data on the date a review is posted. Obviously, reviews on the site longer will have a better chance to receive useful votes compared to their younger counterparts. By applying a time penalty, one may be able to improve upon these usefulness scores. Additionally, expanding sentiment analysis to include anger, joy, sadness, disgust and fear may allow further insights into which sentiments are most common reviews of different ratings.

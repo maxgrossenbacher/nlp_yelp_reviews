@@ -7,6 +7,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.metrics import f1_score
 import pickle
+from sklearn.externals import joblib
+
 
 
 def classifer(model, X, y, name):
@@ -14,8 +16,7 @@ def classifer(model, X, y, name):
     model.fit(X_train, y_train)
     preds = model.predict(X_test)
     print(name+'_accuracy:',model.score(X_test, y_test))
-    with open(name, 'wb') as f:
-        pickle.dump(model, f)
+    joblib.dump(model, name)
     return model, preds, y_test
 
 if __name__ == '__main__':
@@ -45,11 +46,11 @@ if __name__ == '__main__':
     # print('sampling...')
     # df.sample(frac=1)
     # negative_df = df[df['sentiment'] == 'negative'] #random sample of user reviews
-    # negative_sample = negative_df.sample(n=200000)
+    # negative_sample = negative_df.sample(n=100000)
     # positive_df = df[df['sentiment'] == 'positive']
-    # positive_sample = positive_df.sample(n=200000)
+    # positive_sample = positive_df.sample(n=100000)
     # neutral_df = df[df['sentiment'] == 'neutral']
-    # neutral_sample = neutral_df.sample(n=200000)
+    # neutral_sample = neutral_df.sample(n=100000)
     # sentiment_df = pd.concat([negative_sample, positive_sample, neutral_sample])
     # sentiment_df.to_pickle('models/sentiment_df.pkl')
 
@@ -59,15 +60,15 @@ if __name__ == '__main__':
     # print('sampling...')
     # df.sample(frac=1)
     # df_1 = df[df['starsrev'] == 1] #random sample of user reviews
-    # sample_1 = df_1.sample(n=100000)
+    # sample_1 = df_1.sample(n=50000)
     # df_2 = df[df['starsrev'] == 2]
-    # sample_2 = df_2.sample(n=100000)
+    # sample_2 = df_2.sample(n=50000)
     # df_3 = df[df['starsrev'] == 3]
-    # sample_3 = df_3.sample(n=100000)
+    # sample_3 = df_3.sample(n=50000)
     # df_5 = df[df['starsrev'] == 5]
-    # sample_5 = df_5.sample(n=100000)
+    # sample_5 = df_5.sample(n=50000)
     # df_4 = df[df['starsrev'] == 4]
-    # sample_4 = df_4.sample(n=100000)
+    # sample_4 = df_4.sample(n=50000)
     # rating_df = pd.concat([sample_1, sample_2, sample_3, sample_4, sample_5])
     # rating_df.to_pickle('models/rating_df.pkl')
 
@@ -99,20 +100,25 @@ if __name__ == '__main__':
     model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gdc_word2vec.pkl')
     print('f1_score:', f1_score(y_test, preds, average='weighted'))
     # print('training model...')
-    # model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gdc_tfidf.pkl')
+    # model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gbc_tfidf.pkl')
     # print(name+'f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
     print('Done.')
     '''
     sentiment model optimized
     '''
-    # svc_sent_opt = SVC(C=10, kernel='linear', shrinking=True)
-    # classifer(svc_sent_opt, tfidf.toarray(), sentiment_df['sentiment'], name='sentiment_model_new_opt_svc.pkl')
+    # print('training model...')
+    # gb_sentiment = GradientBoostingClassifier(learning_rate=0.1, max_features=sqrt, n_estimators=500)
+    # model3, preds3, y_test3 = classifer(gd_sentiment, doc_vectors, sentiment_df['sentiment'], name='sentiment_model_gbc_word2vec.pkl')
+    # print('f1_score:', f1_score(y_test3, preds3, average='weighted'))
+    # model4, preds4, y_test4 = classifer(gd_sentiment, tfidf.toarray(), sentiment_df['sentiment'], name='sentiment_model_gbc_tfidf.pkl')
+    # print('f1_score:', f1_score(y_test4, preds4, average='weighted'))
     '''
     rating model optimized
     '''
     # gd_rating = GradientBoostingClassifier(learning_rate=0.1, max_features='sqrt', n_estimators=500)
-    # classifer(gd_rating, doc_vectors, df2['starsrev'], name='rating_model_new_opt_svc.pkl')
+    # model5, preds5, y_test5 = classifer(gd_rating, doc_vectors, rating_df['starsrev'], name='rating_model_gbc_word2vec.pkl')
+    # print('f1_score:', f1_score(y_test5, preds5, average='weighted'))
+    # model6, preds6, y_test6 = classifer(gd_rating, tfidf.toarray(), rating_df['starsrev'], name='rating_model_gbc_tfidf.pkl')
+    # print('f1_score:', f1_score(y_test6, preds6, average='weighted'))
     # print('Done.')
-    # svc_rating = SVC(C=1,kernel='linear',shrinking=True)
-    # classifer(svc_rating, doc_vectors, rating_df['starsrev'], name='rating_model_word2vec_svc.pkl')
-    # print('Done.')
+    #
