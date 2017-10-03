@@ -1,5 +1,14 @@
 # Content Analysis and Classification of Yelp Reviews using Machine Learning
 
+* [Motivation](https://github.com/maxgrossenbacher/nlp_yelp_reviews#motivation)
+* [Overview](https://github.com/maxgrossenbacher/nlp_yelp_reviews#overview)
+* [The Data](https://github.com/maxgrossenbacher/nlp_yelp_reviews#the-data)
+* [EDA & NLP Pipeline](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-1)
+* [Latent Topic Analysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-2)
+* [Review Classification](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-3)
+* [Web App](https://github.com/maxgrossenbacher/nlp_yelp_reviews#web-app)
+* [Conclusions & Future Directions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion--future-directions)
+
 ## Motivation
 
 *Why is Natural Langauage Processing important?*  
