@@ -51,7 +51,6 @@ Use machine learning to predict rating, usefulness and sentiment of a review
 This is a distribution of the average rating of all business compared to the average rating of restaurants in the Yelp business dataset. As you can see, restaurants are rated on average only slightly higher than the global business average rating.
 ![alt text](avg_rating.png)  
 Below is a distribution of rating of individual reviews for the 50 most rated restaurants in the Yelp reviews dataset. You can see a majority of reviews are rated 4 and 5 stars. This is consistent with the findings above: the average restaurant rating is ~3.7.
-![alt text](50_most_rated.png)
 ### Building NLP Pipeline:
 [Yelp reviews were processed](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) using the library Textacy. Textacy allows for mutli-threading of documents using SpaCy. During text processing, stop words are removed, words are tokenized and lemmatized, and a vocabulary of terms is generated.
 
@@ -101,17 +100,11 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.987 | 0.651 |  
 | target | SVC | C: 10; kernel: linear; shrinking: True | 0.329 | 0.283 |  
 
-<sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>
+<sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>  
+Each model demonstrates overfitting on the training data. Free text can often be very messy. Additionally, we have many different ways to express the same idea, feeling or concept. This may be once why these models overfit to the training data.
 
 #### Final Models:
-Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class. Final models were train on ~300,000 reviews.
-
-##### TF-IDF Models
-| Target/Label | Model | Parameters | Accuracy | F1 score |  
-|:------------:|:-----:|:----------:|:--------:|:--------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | ** |  
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
+Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class. Final models were train on ~300,000 reviews represented as doc2vec vectors using GloVe. These models used to predict usefulness, sentiment and rating of a review in The Yelp Review Scorer web application.
 
 ##### Doc2vec Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
@@ -120,12 +113,17 @@ Balancing classes: based on EDA of the yelp reviews dataset, it is clear that so
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 68.0% | 0.680 |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 
-### Seq2Seq:
+#### Seq2Seq:
+Seq2seq models were employed to predict more complex
 
 ## Web App:
 [The Yelp Review Scorer]() will process a Yelp-type review and output a usefulness score, overall sentiment, and suggested rating. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
 
-## Conclusion & Future Directions:
-Both Random Forest Classifier and Gradient Boosted Classifier out-preform the Multinomial Naive Bayes model. Using the optimized models, we see a 30%, 25% and 28% increase in weighted F1 score for predicting usefulness, sentiment and rating of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by $$,$$ and $$ respectively. The final models trained on ~300,000 doc2vec reviews...  
-These results exhibit the power of machine learning when coupled with natural language processing. Using The Yelp Review Scorer, users may score there model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.  
-Despite the relatively high accuracy and f1 scores, these models can continued to be improved. For instance, usefulness rating was based solely on the number of useful votes a review received at the time Yelp complied the challenge dataset. To improve this model's predictive ability, it would be helpful to collect data on the date a review is posted. Obviously, reviews on the site longer will have a better chance to receive useful votes compared to their younger counterparts. By applying a time penalty, one may be able to improve upon these usefulness scores. Additionally, expanding sentiment analysis to include anger, joy, sadness, disgust and fear may allow further insights into which sentiments are most common reviews of different ratings.
+## Conclusion:
+Both Random Forest Classifier and Gradient Boosted Classifier out-preform the Multinomial Naive Bayes model. Using the optimized models, we see a 30%, 24% and 28% increase in weighted F1 score for predicting usefulness, sentiment and rating of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by 40%, 25% and $$ respectively as compared to the Naive Bayes Baseline model.
+These results exhibit the power of machine learning when coupled with natural language processing. Using The Yelp Review Scorer, users may score there model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.
+
+## Future Directions:
+These models can continued to be improved. For one, we saw significant overfitting of the training data in the optimized models. One way to address this would be to try and different modeling method i.e. a mutlinomial neural network.  
+Additionally, we can modify the targets to better capture the essence of what we are trying to predict. For instance, usefulness was based solely on the number of useful votes a review received at the time Yelp complied the challenge dataset. To improve this model's predictive ability, it would be helpful to collect data on the date a review was posted or the number of views a review received. Reviews on the site longer/with more views have a better chance to receive useful votes compared to their younger/less viewed counterparts. By applying a time or number of views penalty, one may be able to improve upon these usefulness scores.  
+Lastly, expanding sentiment analysis to include feelings such as anger, joy, sadness, disgust and fear may allow further insights into which sentiment(s) are most common among reviews of different ratings.
