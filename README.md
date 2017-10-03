@@ -17,12 +17,12 @@ Social media is a burgeoning field built on the premise of human-to-human intera
 
 ## Overview
 This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
-#### Question 1:
-Can I create build a scaleable and reusable natural language processing pipeline?
-#### Question 2:
-Can I find latent topics/keywords for business on Yelp based solely on user reviews of that business?
-#### Question 3:
-Can I use machine learning to create models to predict rating, usefulness and sentiment of a yelp review?
+#### Objective 1:
+Build a scaleable and reusable natural language processing pipeline
+#### Objective 2:
+Find latent topics/keywords for business on Yelp based solely on user reviews of that business
+#### Objective 3:
+Use machine learning to predict rating, usefulness and sentiment of a review
 
 
 ## The Data:
