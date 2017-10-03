@@ -65,7 +65,7 @@ Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis
 ![alt text](pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada. Additionally, I also used Tensorboard to plot PCA and tSNE of document vectors for each review. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).  
-  
+
 <sup> * This corresponds to topic 5 in the termite plot above.</sup>
 
 ## Part 3:
@@ -101,7 +101,7 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.987 | 0.651 |  
 | target | SVC | C: 10; kernel: linear; shrinking: True | 0.329 | 0.283 |  
 
-<sup> * Full Grid Search CVs can be found in grid_cvs </sup>
+<sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>
 
 #### Final Models:
 Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class.  
