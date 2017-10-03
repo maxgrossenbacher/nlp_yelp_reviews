@@ -11,9 +11,9 @@
 
 ## Motivation
 
-*Why is Natural Langauage Processing important?*  
+*Why is Natural Langauage Processing Important?*  
 Approximately 80% of "business-relevant information originates in unstructured form, primarily text" ([breakthroughanalysis.com](https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/)). Obviously, if some company wants to utilize all this information, then they must be able to take this unstructured free text and turn it into something meaningful and actionable. Natural language processing (NLP) attempts to do exactly this!  
-  
+
 Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured data can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigns to target to specific users interests, build recommender systems or improve the user experience.
 
 ## Overview
@@ -30,7 +30,7 @@ Use machine learning to predict rating, usefulness and sentiment of a review
 
 [Yelp's Challenge Dataset](https://www.yelp.com/dataset/challenge) provides access to millions of user reviews. I was able to isolate over ~3 M reviews of over 51,000 businesses containing the category keyword restaurant.
 
-#### Feature Engineering
+#### Target Engineering
 - **usefulness**: distinguish between useful and very-useful was somewhat arbitrary. I was trying to find ranges that would create more balanced classes.
 
 |not_useful|useful|very_useful|
@@ -65,7 +65,8 @@ Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis
 ![alt text](pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada.  
-<sup> * This corresponds to topic 5 in the termite plot above.</sup>
+<sup> * This corresponds to topic 5 in the termite plot above.</sup>  
+I also used Tensorboard to plot PCA and tSNE of document vectors for each review. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the restaurant about can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).
 
 ## Part 3:
 ### Classifying Reviews Using Machine learning:
