@@ -106,13 +106,19 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 #### Final Models:
 Balancing classes: based on EDA of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class. Final models were train on ~300,000 reviews.
 
+##### TF-IDF Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
 |:------------:|:-----:|:----------:|:--------:|:--------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.8% | **% |  
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | **% | **% |  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | **% | ** |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 
-Bag-of-words models v.s. Word2vec models
+##### Doc2vec Models
+| Target/Label | Model | Parameters | Accuracy | F1 score |  
+|:------------:|:-----:|:----------:|:--------:|:--------:|
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.8% | ** |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 
 
 ### Seq2Seq:
