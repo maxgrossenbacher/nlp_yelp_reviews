@@ -58,7 +58,7 @@ You can see a majority of reviews are rated 4 and 5 stars. The average restauran
 ## Part 2:
 ### Latent Topic Analysis of Reviews:
 Once NLP data has been processed, NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
-![alt text](termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda.png)  
+![alt text](termite_plot_lda.png)  
 
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics show the 5 most important topics</sup>  
 Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.  
