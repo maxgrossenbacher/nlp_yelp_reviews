@@ -23,21 +23,22 @@ if __name__ == '__main__':
     '''
     Data load for model training
     '''
-    # df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
+    print('load df...')
+    df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
 
     '''
     Sampling for usefulness model
     '''
-    # print('sampling...')
-    # df.sample(frac=1)
-    # df_notuseful = df[df['usefulness'] == 'not_useful'] #random sample of user reviews
-    # not_useful_sample = df_notuseful.sample(n=100000)
-    # df_useful = df[df['usefulness'] == 'useful']
-    # useful_sample = df_notuseful.sample(n=100000)
-    # veryuseful_df = df[df['usefulness'] == 'very_useful']
-    # veryuseful_sample = veryuseful_df.sample(n=100000)
-    # usefulness_df = pd.concat([not_useful_sample, useful_sample, veryuseful_sample])
-    # usefulness_df.to_pickle('models/usefulness_df.pkl')
+    print('sampling...')
+    df.sample(frac=1)
+    df_notuseful = df[df['usefulness'] == 'not_useful'] #random sample of user reviews
+    not_useful_sample = df_notuseful.sample(n=100000)
+    df_useful = df[df['usefulness'] == 'useful']
+    useful_sample = df_useful.sample(n=100000)
+    veryuseful_df = df[df['usefulness'] == 'very_useful']
+    veryuseful_sample = veryuseful_df.sample(n=100000)
+    usefulness_df = pd.concat([not_useful_sample, useful_sample, veryuseful_sample])
+    usefulness_df.to_pickle('models/usefulness_df.pkl')
 
 
     '''
@@ -75,21 +76,21 @@ if __name__ == '__main__':
     '''
     NLP prep for model training
     '''
-    # nlp = NlpTopicAnalysis(usefulness_df, textcol='text')
+    nlp = NlpTopicAnalysis(usefulness_df, textcol='text')
     print('processing...')
-    # nlp.process_text('../pkl_data', filename='usefulness_corpus')
-    nlp = NlpTopicAnalysis()
-    nlp.load_corpus('../pkl_data', filename='usefulness_corpus')
+    nlp.process_text('../pkl_data', filename='usefulness_corpus')
+    # nlp = NlpTopicAnalysis()
+    # nlp.load_corpus('../pkl_data', filename='usefulness_corpus')
     print('vectorizing...')
     # tfidf = nlp.vectorize(weighting='tfidf')
-    # nlp.word2vec()
-    # doc_vectors=nlp.doc_vectors
-    # np.save('doc_vectors_usefulness', doc_vectors)
+    nlp.word2vec()
+    doc_vectors=nlp.doc_vectors
+    np.save('doc_vectors_usefulness', doc_vectors)
     print('loaded doc vectors...')
     doc_vectors = np.load('doc_vectors_usefulness.npy')
     # with open('usefulness_vectorizer.pkl', 'wb') as v:
         # pickle.dump(nlp.vectorizer, v)
-    usefulness_df = pd.read_pickle("models/usefulness_df.pkl")
+    # usefulness_df = pd.read_pickle("models/usefulness_df.pkl")
 
 
     '''
@@ -97,18 +98,18 @@ if __name__ == '__main__':
     '''
     rf_n_useful = RandomForestClassifier(max_features='sqrt', n_estimators=1000)
     print('training model...')
-    model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gdc_word2vec.pkl')
+    model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gbc_word2vec.pkl')
     print('f1_score:', f1_score(y_test, preds, average='weighted'))
     # print('training model...')
     # model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gbc_tfidf.pkl')
-    # print(name+'f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
-    print('Done.')
+    # print('f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
+    # print('Done.')
     '''
     sentiment model optimized
     '''
     # print('training model...')
-    # gb_sentiment = GradientBoostingClassifier(learning_rate=0.1, max_features=sqrt, n_estimators=500)
-    # model3, preds3, y_test3 = classifer(gd_sentiment, doc_vectors, sentiment_df['sentiment'], name='sentiment_model_gbc_word2vec.pkl')
+    # gb_sentiment = GradientBoostingClassifier(learning_rate=0.1, max_features='sqrt', n_estimators=500)
+    # model3, preds3, y_test3 = classifer(gb_sentiment, doc_vectors, sentiment_df['sentiment'], name='sentiment_model_gbc_word2vec.pkl')
     # print('f1_score:', f1_score(y_test3, preds3, average='weighted'))
     # model4, preds4, y_test4 = classifer(gd_sentiment, tfidf.toarray(), sentiment_df['sentiment'], name='sentiment_model_gbc_tfidf.pkl')
     # print('f1_score:', f1_score(y_test4, preds4, average='weighted'))

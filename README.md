@@ -14,7 +14,7 @@
 *Why is Natural Langauage Processing Important?*  
 Approximately 80% of "business-relevant information originates in unstructured form, primarily text" ([breakthroughanalysis.com](https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/)). Obviously, if some company wants to utilize all this information, then they must be able to take this unstructured free text and turn it into something meaningful and actionable. Natural language processing (NLP) attempts to do exactly this!  
 
-Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured data can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigns to target to specific users interests, build recommender systems or improve the user experience.
+Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured data can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigns to target to specific users interests, build recommender systems or improve overall user experience.
 
 ## Overview
 This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
@@ -90,7 +90,7 @@ A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master
 * [Random Forest Classifier](http://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html)
 * [Support Vector Machine -- SVC](http://scikit-learn.org/stable/modules/generated/sklearn.svm.SVC.html#sklearn.svm.SVC)
 
-#### Grid Search Best Models & Parameters
+#### Grid Search Best Models & Parameters:
 Models were trained on 10,000 TF-IDF vectors generated from random user reviews with a 4-Fold cross validation. Once again, the weighted F1 score was used to account for possible imbalance in class.  
 
 | Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
@@ -116,7 +116,7 @@ Balancing classes: based on EDA of the yelp reviews dataset, it is clear that so
 ##### Doc2vec Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
 |:------------:|:-----:|:----------:|:--------:|:--------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.9% | ** |  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.8% | 0.801 |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 
