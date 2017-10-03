@@ -64,7 +64,8 @@ Once NLP data has been processed, NlpTopicAnalysis allows latent topic modeling 
 Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.  
 ![alt text](pyLDAvis_screenshot.png)  
 
-We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada. Additionally, document embedding (document vectors for each review) were visualized using Tensorboard to create interactive 3-dimensional PCA and tSNE plots. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).  
+We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada. This is an example of how latent topic modeling can be used to provide insight into a business that would normally not be displayed in a description or keywords identifying a restaurant. LDA can also provide insight into which topics are most important to reviewers.  
+Lastly, document embeddings were visualized using Tensorboard to create interactive 3-dimensional PCA and tSNE plots. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).  
 
 <sup> * This corresponds to topic 5 in the termite plot above.</sup>
 
