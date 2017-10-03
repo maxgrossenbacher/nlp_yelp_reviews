@@ -104,7 +104,7 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 Each model demonstrates overfitting on the training data. Free text can often be very messy. Humans have many different ways to express the same idea, feeling or concept. This may be once why these models tend to overfit on the training data.
 
 #### Final Models:
-Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-1) of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class. Final models were train on ~300,000 reviews represented as doc2vec vectors using GloVe. These models are employed in The Yelp Review Scorer to predict usefulness, sentiment and rating of a review.
+Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_reviews#EDA) of the yelp reviews dataset, it is clear that some classes are imbalanced. For instance, there are more reviews rated 4 and 5 than there are reviews rated 3, 2 or 1. In order to account for this imbalance. Previously, I used a weighted f1 score to account for this class imbalance. However for the final models, I randomly sampled from the dataset making sure that there was an equal distribution of reviews in each class. Final models were train on ~300,000 reviews represented as doc2vec vectors using GloVe. These models are employed in The Yelp Review Scorer to predict usefulness, sentiment and rating of a review.
 
 ##### Doc2vec Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
@@ -117,7 +117,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 [Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/seq2seq_script.sh) models were attempted to predict more complex labels including the target label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.
 
 ## Web App:
-[The Yelp Review Scorer]() will process a Yelp-type review and output a usefulness score, overall sentiment, and suggested rating. Scores are predicted using the final models and parameters obtained after a grid search. Have fun!
+[The Yelp Review Scorer]() will process a Yelp-type review and output a usefulness score, sentiment score, and suggested rating. Scores are predicted using the final models and parameters obtained [above](https://github.com/maxgrossenbacher/nlp_yelp_reviews#doc2vec-models). Have fun!
 
 ## Conclusion:
 Both Random Forest Classifier and Gradient Boosted Classifier out-preform the Multinomial Naive Bayes model. Using the optimized models, we see a 30%, 24% and 28% increase in weighted F1 score for predicting usefulness, sentiment and rating of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by 40%, 25% and $$ respectively as compared to the Naive Bayes Baseline model.
