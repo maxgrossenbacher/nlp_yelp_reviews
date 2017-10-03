@@ -80,15 +80,15 @@ if __name__ == '__main__':
     nlp = NlpTopicAnalysis()
     nlp.load_corpus('../pkl_data', filename='usefulness_corpus')
     print('vectorizing...')
-    tfidf = nlp.vectorize(weighting='tfidf')
+    # tfidf = nlp.vectorize(weighting='tfidf')
     # nlp.word2vec()
     # doc_vectors=nlp.doc_vectors
     # np.save('doc_vectors_usefulness', doc_vectors)
     print('loaded doc vectors...')
-    np.load('doc_vectors_usefulness')
-    with open('usefulness_vectorizer.pkl', 'wb') as v:
-        pickle.dump(nlp.vectorizer, v)
-    df2 = pd.read_pickle("models/usefulness_df.pkl")
+    doc_vectors = np.load('doc_vectors_usefulness.npy')
+    # with open('usefulness_vectorizer.pkl', 'wb') as v:
+        # pickle.dump(nlp.vectorizer, v)
+    usefulness_df = pd.read_pickle("models/usefulness_df.pkl")
 
 
     '''
@@ -97,10 +97,10 @@ if __name__ == '__main__':
     rf_n_useful = RandomForestClassifier(max_features='sqrt', n_estimators=1000)
     print('training model...')
     model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gdc_word2vec.pkl')
-    print(name+'f1_score:', f1_score(y_test, preds, average='weighted'))
-    print('training model...')
-    model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gdc_tfidf.pkl')
-    print(name+'f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
+    print('f1_score:', f1_score(y_test, preds, average='weighted'))
+    # print('training model...')
+    # model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gdc_tfidf.pkl')
+    # print(name+'f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
     print('Done.')
     '''
     sentiment model optimized
