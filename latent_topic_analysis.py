@@ -324,7 +324,7 @@ if __name__ == '__main__':
                     compression=None)
     print(nlp.corpus)
     nlp.vectorize()
-    nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
+    nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=25, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
     nlp.lda_vis()
     print('Done.')
 
