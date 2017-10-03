@@ -116,8 +116,8 @@ Balancing classes: based on EDA of the yelp reviews dataset, it is clear that so
 ##### Doc2vec Models
 | Target/Label | Model | Parameters | Accuracy | F1 score |  
 |:------------:|:-----:|:----------:|:--------:|:--------:|
-| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 80.8% | 0.801 |  
-| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 62.5% | 0.625 |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 68.0% | 0.680 |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
 
 ### Seq2Seq:
