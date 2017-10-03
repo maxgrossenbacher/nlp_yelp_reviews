@@ -7,7 +7,8 @@
 * [Latent Topic Analysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-2)
 * [Review Classification](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-3)
 * [Web App](https://github.com/maxgrossenbacher/nlp_yelp_reviews#web-app)
-* [Conclusions & Future Directions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion--future-directions)
+* [Conclusions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion--future-directions)
+* [Future Directions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#future-directions)
 
 ## Motivation
 
@@ -15,16 +16,6 @@
 Approximately 80% of "business-relevant information originates in unstructured form, primarily text" ([breakthroughanalysis.com](https://breakthroughanalysis.com/2008/08/01/unstructured-data-and-the-80-percent-rule/)). Obviously, if some company wants to utilize all this information, then they must be able to take this unstructured free text and turn it into something meaningful and actionable. Natural language processing (NLP) attempts to do exactly this!  
 
 Social media is a burgeoning field built on the premise of human-to-human interaction (mainly through free text) on the internet. In this field, the ability to wrangle unstructured data can provide key insights about specific users or businesses. These insights can be used to optimize marketing campaigns to target to specific users interests, build recommender systems or improve overall user experience.
-
-## Overview
-This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
-#### Objective 1:
-Build a scaleable and reusable natural language processing pipeline
-#### Objective 2:
-Find latent topics/keywords for business on Yelp based solely on user reviews of that business
-#### Objective 3:
-Use machine learning to predict rating, usefulness and sentiment of a review
-
 
 ## The Data:
 
@@ -44,6 +35,16 @@ Use machine learning to predict rating, usefulness and sentiment of a review
 | starsrev < 3 |  starsrev = 3 | starsrev > 3|
 
 - **RestaurantsPriceRange2**: price rating of a restaurant (1-4) commonly seen as ($, $$, $$$, $$$$)
+
+
+## Overview
+This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
+#### Objective 1:
+Build a scaleable and reusable natural language processing pipeline
+#### Objective 2:
+Find latent topics/keywords for business on Yelp based solely on user reviews of that business
+#### Objective 3:
+Use machine learning to predict rating, usefulness and sentiment of a review
 
 
 ## Part 1:
