@@ -33,7 +33,7 @@ def predict():
     usepred = usefulness_model.predict_proba(docvec)
     useful = 'Useful: {}%, Very Useful: {}%' .format(round(((usepred[0][1]*100)+(usepred[0][2]*100)),2), round((usepred[0][2]*100),2))
     sentiment_pred = sentiment_model.predict_proba(docvec)
-    sentiment = 'Negative: {}%, Neutral: {}%, Postive:{}%'.format(round((sentiment_pred[0][0]*100),2), round((sentiment_pred[0][1]*100),2), round((sentiment_pred[0][2]*100),2))
+    sentiment = 'Negative: {}%, Neutral: {}%, Postive: {}%'.format(round((sentiment_pred[0][0]*100),2), round((sentiment_pred[0][1]*100),2), round((sentiment_pred[0][2]*100),2))
     rating = rating_model.predict(docvec)
     rating = str(rating).strip('[]')
     return render_template('predict_2.html', review=data, useful=useful, sentiment=sentiment, rating=rating)
