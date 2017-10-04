@@ -46,7 +46,7 @@ def predictions():
 @app.route('/explore', methods=['GET'])
 def explore():
     # ids = [ 'YJ8ljUhLsz6CtT_2ORNFmg', '7sPNbCx7vGAaH7SbNPZ6oA','NvKNe9DnQavC9GstglcBJQ','rcaPajgKOJC2vo_l3xa42A','fL-b760btOaGa85OJ9ut3w','eoHdUeQDNgQ6WYEnP2aiRw','HhVmDybpU7L50Kb5A0jXTg','G-5kEa6E6PD5fkBRuA7k9Q','iCQpiavjjPzJ5_3gPD5Ebg','2weQS-RnoOBhb1KsHKyoSQ']
-    return render_template('topic.html')
+    return render_template('pyLDAvis_most_reviewed.html')
 
 # @app.route('/topic_anaysis', methods=['GET', 'POST'])
 # def topic():
