@@ -116,7 +116,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 50.7% | 0.504 |  
 
 #### Seq2Seq:
-[Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/seq2seq_script.sh) models were attempted to predict more complex labels including the target label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.
+[Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/seq2seq_script.sh) models were attempted to predict more complex labels including the "target" label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.
 
 ## Web App:
 [The Yelp Review Scorer]() will process a Yelp-type review and output a usefulness score, sentiment score, and suggested rating. Scores are predicted using the final models and parameters obtained [above](https://github.com/maxgrossenbacher/nlp_yelp_reviews#doc2vec-models). Have fun!
