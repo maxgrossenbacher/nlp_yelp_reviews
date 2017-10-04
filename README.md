@@ -94,6 +94,7 @@ A [grid search](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master
 #### Grid Search Best Models & Parameters:
 Models were trained on 10,000 TF-IDF vectors generated from random user reviews with a 4-Fold cross validation. Once again, the weighted F1 score was used to account for possible imbalance in class.  
 
+#### TF-IDF Vectors
 | Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
 |:------------:|:-----:|:----------:|:----------------:|:---------------:|
 | usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 0.991 | 0.579 |  
@@ -101,6 +102,15 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.773 | 0.439 |  
 | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.987 | 0.651 |  
 | target | SVC | C: 10; kernel: linear; shrinking: True | 0.329 | 0.283 |  
+
+#### Doc2vec Vectors
+| Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
+|:------------:|:-----:|:----------:|:----------------:|:---------------:|
+| usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 1.0 | 0.582 |  
+| sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.974 | 0.727 |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.976 | 0.493 |  
+| price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.968 | 0.679 |  
+| target | SVC | C: 10; kernel: linear; shrinking: True | 0.997 | 0.306 |  
 
 <sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>  
 Each model demonstrates overfitting on the training data. Free text can often be very messy. Humans have many different ways to express the same idea, feeling or concept. This may be once why these models tend to overfit on the training data.
