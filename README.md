@@ -124,7 +124,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 ## Conclusion:
 ![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/f1_score_plt.png)
 Using the optimized models, we see a 30%, 24% and 28% increase in weighted F1 score for predicting usefulness, sentiment and rating of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by 40%, 25% and $$ respectively as compared to the Naive Bayes Baseline model.
-Using The Yelp Review Scorer, users may score there model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.
+Using The Yelp Review Scorer, users may score their model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.
 
 ## Future Directions:
 These models can continued to be improved. After grid searching every model exhibited over fitting of the training data. One way to address this would be to try a different modeling technique for example a mutli-nomial neural network.  
