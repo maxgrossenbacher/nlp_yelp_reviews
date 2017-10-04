@@ -113,7 +113,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 |:------------:|:-----:|:----------:|:--------:|:--------:|
 | usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 62.5% | 0.625 |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 68.0% | 0.680 |  
-| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | ** | ** |  
+| rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 50.7% | 0.504 |  
 
 #### Seq2Seq:
 [Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/seq2seq_script.sh) models were attempted to predict more complex labels including the target label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.

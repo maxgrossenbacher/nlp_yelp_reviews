@@ -5,14 +5,9 @@ import textacy
 
 app = Flask(__name__)
 
-usefulness_model = joblib.load('static/usefulness_model_gbc_word2vec.pkl')
+usefulness_model = joblib.load('static/usefulness_model_rf_word2vec.pkl')
 sentiment_model = joblib.load('static/sentiment_model_gbc_word2vec.pkl')
-# with open('static/rating_model_opt_gdc.pkl', 'rb') as r:
-    # rating_model = pickle.load(r)
-# with open('static/vectorizer.pkl', 'rb') as v:
-    # vectorizer = pickle.load(v)
-# with open('static/sentiment_vectorizer.pkl', 'rb') as sv:
-    # senti_vectorizer = pickle.load(sv)
+rating_model = joblib.load('static/rating_model_gbc_word2vec.pkl')
 
 @app.route('/', methods=['GET'])
 def index():
@@ -33,17 +28,15 @@ def predict():
     data = str(request.form['review'])
     nlp = NlpTopicAnalysis(text=[data])
     nlp.process_text()
-    # terms_list = [(list(doc.to_terms_list(n_grams=1, named_entities=True, \
-                                            # normalize='lemma', as_strings=True, \
-                                            # filter_stops=True, filter_punct=True, exclude_pos=['PUNCT','SPACE']))) for doc in nlp.corpus]
-    # vector = vectorizer.transform(terms_list)
     nlp.word2vec()
     docvec = nlp.doc_vectors
     usepred = usefulness_model.predict_proba(docvec)
-    useful = 'Useful: {}%, Very Useful: {}%' .format(round((usepred[0][1]*100),2), round((usepred[0][2]*100),2))
+    useful = 'Useful: {}%, Very Useful: {}%' .format(round(((usepred[0][1]*100)+(usepred[0][2]*100)),2), round((usepred[0][2]*100),2))
     sentiment_pred = sentiment_model.predict_proba(docvec)
     sentiment = 'Negative: {}%, Neutral: {}%, Postive:{}%'.format(round((sentiment_pred[0][0]*100),2), round((sentiment_pred[0][1]*100),2), round((sentiment_pred[0][2]*100),2))
-    return render_template('predict_2.html', review=data, useful=useful, sentiment=sentiment)
+    rating = rating_model.predict(docvec)
+    rating = str(rating).strip('[]')
+    return render_template('predict_2.html', review=data, useful=useful, sentiment=sentiment, rating=rating)
 
 @app.route('/predictions', methods=['GET', 'POST'])
 def predictions():
@@ -52,15 +45,15 @@ def predictions():
 
 @app.route('/explore', methods=['GET'])
 def explore():
-    ids = [ 'YJ8ljUhLsz6CtT_2ORNFmg', '7sPNbCx7vGAaH7SbNPZ6oA','NvKNe9DnQavC9GstglcBJQ','rcaPajgKOJC2vo_l3xa42A','fL-b760btOaGa85OJ9ut3w','eoHdUeQDNgQ6WYEnP2aiRw','HhVmDybpU7L50Kb5A0jXTg','G-5kEa6E6PD5fkBRuA7k9Q','iCQpiavjjPzJ5_3gPD5Ebg','2weQS-RnoOBhb1KsHKyoSQ']
-    return render_template('topic.html', ids=ids)
+    # ids = [ 'YJ8ljUhLsz6CtT_2ORNFmg', '7sPNbCx7vGAaH7SbNPZ6oA','NvKNe9DnQavC9GstglcBJQ','rcaPajgKOJC2vo_l3xa42A','fL-b760btOaGa85OJ9ut3w','eoHdUeQDNgQ6WYEnP2aiRw','HhVmDybpU7L50Kb5A0jXTg','G-5kEa6E6PD5fkBRuA7k9Q','iCQpiavjjPzJ5_3gPD5Ebg','2weQS-RnoOBhb1KsHKyoSQ']
+    return render_template('topic.html')
 
-@app.route('/topic_anaysis', methods=['GET', 'POST'])
-def topic():
-    i = str(request.form['business'])
-    address = 'pyLDAvis_'+i+'.html'
-    print(address)
-    return render_template(address)
+# @app.route('/topic_anaysis', methods=['GET', 'POST'])
+# def topic():
+#     i = str(request.form['business'])
+#     address = 'pyLDAvis_'+i+'.html'
+#     print(address)
+#     return render_template(address)
 
 @app.route('/contact', methods=['GET'])
 def contact():
