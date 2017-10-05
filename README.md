@@ -103,6 +103,8 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.987 | 0.651 |  
 | target | SVC | C: 10; kernel: linear; shrinking: True | 0.329 | 0.283 |  
 
+  <sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>  
+
 #### Doc2vec Vectors
 | Target/Label | Model | Parameters | Mean Train Score | Mean Test Score |  
 |:------------:|:-----:|:----------:|:----------------:|:---------------:|
@@ -112,7 +114,7 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 <!-- | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.968 | 0.679 |  
 | target | SVC | C: 10; kernel: linear; shrinking: True | 0.997 | 0.306 |   -->
 
-<sup> * Full Grid Search CVs can be found in [grid_cvs](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/grid_cvs) </sup>  
+
 Each model demonstrates overfitting on the training data. Free text can often be very messy. Humans have many different ways to express the same idea, feeling or concept. This may be one reason why these models tend to overfit on the training data.
 
 #### Final Models:
