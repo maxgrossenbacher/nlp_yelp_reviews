@@ -16,6 +16,7 @@ def classifer(model, X, y, name):
     model.fit(X_train, y_train)
     preds = model.predict(X_test)
     print(name+'_accuracy:',model.score(X_test, y_test))
+    print(oob_score_)
     joblib.dump(model, name)
     return model, preds, y_test
 
@@ -24,7 +25,7 @@ if __name__ == '__main__':
     Data load for model training
     '''
     print('load df...')
-    df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
+    # df = pd.read_pickle("../pkl_data/rest_text_target_W_ids_df.pkl")
 
     '''
     Sampling for usefulness model
@@ -58,48 +59,48 @@ if __name__ == '__main__':
     '''
     Sampling for rating model
     '''
-    print('sampling...')
-    df.sample(frac=1)
-    df_1 = df[df['starsrev'] == 1] #random sample of user reviews
-    sample_1 = df_1.sample(n=50000)
-    df_2 = df[df['starsrev'] == 2]
-    sample_2 = df_2.sample(n=50000)
-    df_3 = df[df['starsrev'] == 3]
-    sample_3 = df_3.sample(n=50000)
-    df_5 = df[df['starsrev'] == 5]
-    sample_5 = df_5.sample(n=50000)
-    df_4 = df[df['starsrev'] == 4]
-    sample_4 = df_4.sample(n=50000)
-    rating_df = pd.concat([sample_1, sample_2, sample_3, sample_4, sample_5])
-    rating_df.to_pickle('models/rating_df.pkl')
+    # print('sampling...')
+    # df.sample(frac=1)
+    # df_1 = df[df['starsrev'] == 1] #random sample of user reviews
+    # sample_1 = df_1.sample(n=50000)
+    # df_2 = df[df['starsrev'] == 2]
+    # sample_2 = df_2.sample(n=50000)
+    # df_3 = df[df['starsrev'] == 3]
+    # sample_3 = df_3.sample(n=50000)
+    # df_5 = df[df['starsrev'] == 5]
+    # sample_5 = df_5.sample(n=50000)
+    # df_4 = df[df['starsrev'] == 4]
+    # sample_4 = df_4.sample(n=50000)
+    # rating_df = pd.concat([sample_1, sample_2, sample_3, sample_4, sample_5])
+    # rating_df.to_pickle('models/rating_df.pkl')
 
     '''
     NLP prep for model training
     '''
-    nlp = NlpTopicAnalysis(rating_df, textcol='text')
+    # nlp = NlpTopicAnalysis(rating_df, textcol='text')
     print('processing...')
-    nlp.process_text('../pkl_data', filename='rating_corpus')
+    # nlp.process_text('../pkl_data', filename='rating_corpus')
     # nlp = NlpTopicAnalysis()
     # nlp.load_corpus('../pkl_data', filename='usefulness_corpus')
     print('vectorizing...')
     # tfidf = nlp.vectorize(weighting='tfidf')
-    nlp.word2vec()
-    doc_vectors=nlp.doc_vectors
-    np.save('doc_vectors_rating', doc_vectors)
+    # nlp.word2vec()
+    # doc_vectors=nlp.doc_vectors
+    # np.save('doc_vectors_rating', doc_vectors)
     print('loaded doc vectors...')
-    doc_vectors = np.load('doc_vectors_rating.npy')
+    doc_vectors = np.load('doc_vectors_usefulness.npy')
     # with open('usefulness_vectorizer.pkl', 'wb') as v:
         # pickle.dump(nlp.vectorizer, v)
-    # usefulness_df = pd.read_pickle("models/usefulness_df.pkl")
+    usefulness_df = pd.read_pickle("../models/usefulness_df.pkl")
 
 
     '''
     training usefulness_model
     '''
-    # rf_n_useful = RandomForestClassifier(max_features='sqrt', n_estimators=1000)
-    # print('training model...')
-    # model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gbc_word2vec.pkl')
-    # print('f1_score:', f1_score(y_test, preds, average='weighted'))
+    rf_n_useful = RandomForestClassifier(max_features='sqrt', n_estimators=1000, max_depth=6, oob_score=True)
+    print('training model...')
+    model, preds, y_test = classifer(rf_n_useful, doc_vectors, usefulness_df['usefulness'], name='usefulness_model_gbc_word2vec.pkl')
+    print('f1_score:', f1_score(y_test, preds, average='weighted'))
     # print('training model...')
     # model_2, preds_2, y_test_2 = classifer(rf_n_useful, tfidf.toarray(), usefulness_df['usefulness'], name='usefulness_model_gbc_tfidf.pkl')
     # print('f1_score:', f1_score(y_test_2, preds_2, average='weighted'))
@@ -116,9 +117,9 @@ if __name__ == '__main__':
     '''
     rating model optimized
     '''
-    gd_rating = GradientBoostingClassifier(learning_rate=0.1, max_features='sqrt', n_estimators=500)
-    model5, preds5, y_test5 = classifer(gd_rating, doc_vectors, rating_df['starsrev'], name='rating_model_gbc_word2vec.pkl')
-    print('f1_score:', f1_score(y_test5, preds5, average='weighted'))
+    # gd_rating = GradientBoostingClassifier(learning_rate=0.1, max_features='sqrt', n_estimators=500)
+    # model5, preds5, y_test5 = classifer(gd_rating, doc_vectors, rating_df['starsrev'], name='rating_model_gbc_word2vec.pkl')
+    # print('f1_score:', f1_score(y_test5, preds5, average='weighted'))
     # model6, preds6, y_test6 = classifer(gd_rating, tfidf.toarray(), rating_df['starsrev'], name='rating_model_gbc_tfidf.pkl')
     # print('f1_score:', f1_score(y_test6, preds6, average='weighted'))
     # print('Done.')

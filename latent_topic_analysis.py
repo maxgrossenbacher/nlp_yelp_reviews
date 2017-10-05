@@ -245,7 +245,7 @@ class NlpTopicAnalysis(object):
                                 self.vectorizer.feature_names, \
                                 topics=-1,  \
                                 n_terms=n_terms, \
-                                highlight_topics=highlight)
+                                highlight_topics=highlight,col_labels=['Topic 1','Topic 2','Topic 3','Topic 4','Topic 5','Topic 6','Topic 7','Topic 8','Topic 9'])
         plt.tight_layout()
         print('plotting...')
         if save:
@@ -325,7 +325,7 @@ if __name__ == '__main__':
     print(nlp.corpus)
     nlp.vectorize()
     nlp.topic_analysis(n_topics=9, model_type='lda', n_terms=25, n_highlighted_topics=5, plot=True, save='termite_plot_4JNXUYY8wbaaDmk3BPzlWw_lda')
-    nlp.lda_vis()
+    # nlp.lda_vis()
     print('Done.')
 
     ''' Getting restaurants text and labels'''
