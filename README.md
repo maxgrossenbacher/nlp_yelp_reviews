@@ -9,7 +9,7 @@
 * [Web App](https://github.com/maxgrossenbacher/nlp_yelp_reviews#web-app)
 * [Conclusions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion)
 * [Future Directions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#future-directions)
-* [Capstone Poster](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/max_grossenbacher_poster_final.pdf)
+* [Capstone Poster](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/images/max_grossenbacher_poster_final.pdf)
 
 ## Motivation
 
