@@ -111,8 +111,8 @@ Models were trained on 10,000 TF-IDF vectors generated from random user reviews 
 | usefulness | Random Forest | max_features: sqrt; n_estimators: 1000 | 1.0 | 0.582 |  
 | sentiment | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.974 | 0.727 |  
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 0.976 | 0.493 |  
-<!-- | price | Random Forest | max_features: sqrt; n_estimators: 500 | 0.968 | 0.679 |  
-| target | SVC | C: 10; kernel: linear; shrinking: True | 0.997 | 0.306 |   -->
+| price | Random Forest | max_features: sqrt; n_estimators: 500 | 1.0 | 0.598 |  
+| target | SVC | C: 10; kernel: linear; shrinking: True | 0.253 | 0.222 |  
 
 
 Each model demonstrates overfitting on the training data. Free text can often be very messy. Humans have many different ways to express the same idea, feeling or concept. This may be one reason why these models tend to overfit on the training data.
