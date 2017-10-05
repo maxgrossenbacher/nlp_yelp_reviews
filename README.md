@@ -7,8 +7,9 @@
 * [Latent Topic Analysis](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-2)
 * [Review Classification](https://github.com/maxgrossenbacher/nlp_yelp_reviews#part-3)
 * [Web App](https://github.com/maxgrossenbacher/nlp_yelp_reviews#web-app)
-* [Conclusions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion--future-directions)
+* [Conclusions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#conclusion)
 * [Future Directions](https://github.com/maxgrossenbacher/nlp_yelp_reviews#future-directions)
+* [Capstone Poster](https://github.com/maxgrossenbacher/nlp_yelp_reviews/#capstone-poster)
 
 ## Motivation
 
@@ -141,3 +142,6 @@ Using The Yelp Review Scorer, users may score their model for probability of use
 Trying different classification techniques, for example a multinomial neural network may improve F1 scores.  
 Additionally, targets can be modified to better capture the essence of what we are trying to predict. Usefulness was based solely on the number of useful votes a review received at the time Yelp complied the challenge dataset. It would be helpful to collect data on the date a review was posted or the number of views a review received. By applying a time or number of views penalty, one may be able to improve upon these usefulness scores.  
 Lastly, expanding sentiment analysis to include feelings such as anger, joy, sadness, disgust and fear may allow further insights into which sentiment(s) are most common among reviews of different ratings
+
+## Capstone Poster:
+![alt text](max_grossenbacher_poster_final.png)
