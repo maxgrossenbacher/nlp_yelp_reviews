@@ -59,11 +59,11 @@ You can see a majority of reviews are rated 4 and 5 stars. The average restauran
 ## Part 2:
 ### Latent Topic Analysis of Reviews:
 Once NLP data has been processed, NlpTopicAnalysis allows latent topic modeling using NMF, LDA (Latent Dirichlet Allocation) or LSA. For my purposes, I chose to model the yelp reviews using LDA. When modeling using LDA, best results are achieved using the term-frequency (TF) matrix of a corpus of documents. Below is a example termite plot of latent topics.  
-![alt text](termite_plot_lda.png)  
+![alt text](images/termite_plot_lda.png)  
 
 <sup>* The bigger the circle, the more important the term is to the topic. The colored topics illustrate the 5 most important topics</sup>  
-Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](pyLDAvis_most_reviewed.html) of these latent topics.  
-![alt text](pyLDAvis_screenshot.png)  
+Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](images/pyLDAvis_most_reviewed.html) of these latent topics.  
+![alt text](images/pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada. This is an example of how latent topic modeling can be used to provide insight into a business that would not normally be displayed in a business description or be used as a keyword to identify a business. Additionally, LDA can also provide insight into which topics are most important to reviewers. For this particular restaurant, topic 4** (the topic containing the terms steak, french and delicious) is the most important topic. Furthermore, using the pyLDAvis tool, we can visualize the relationship between different topics. Circles that overlap i.e. topic 5 and 6 contain similar or overlapping terms. Whereas topics spread further apart i.e. topic 1 and 2 contain terms that are not so similar to each other.   
 Lastly, document embeddings were visualized using Tensorboard to create interactive 3-dimensional PCA and tSNE plots. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).  
@@ -134,7 +134,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 [The Yelp Review Scorer](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/web_app) will process a Yelp-type review and output a usefulness score, sentiment score, and suggested rating. Scores are predicted using the final models and parameters obtained [above](https://github.com/maxgrossenbacher/nlp_yelp_reviews#doc2vec-models). Have fun!
 
 ## Conclusion:
-![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/f1_score_plt_cv.png)
+![alt text](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/images/f1_score_plt_cv.png)
 Using the optimized models, we see a 28%, 25% and 30% increase in weighted F1 score for predicting rating, sentiment and usefulness of a review. Additionally, we can see that using doc2vec representations of reviews, instead of TF-IDF (bag-of-words) vectors, increases the predictive performance of each model by 46%, 34% and 31% respectively as compared to the Naive Bayes Baseline model.
 Using The Yelp Review Scorer, users may score their model for probability of usefulness as well as overall sentiment and suggested rating. Hopefully, over time, more useful reviews will improve the user experience by providing users with more helpful and relevant reviews.
 
