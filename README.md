@@ -54,7 +54,7 @@ This is a distribution of the average rating of all business compared to the ave
 ![alt text](images/avg_rating.png)  
 You can see a majority of reviews are rated 4 and 5 stars. The average restaurant rating is ~3.7.
 ### Building NLP Pipeline:
-[Yelp reviews were processed](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) using the library Textacy. Textacy allows for mutli-threading of documents using SpaCy. During text processing, stop words are removed, words are tokenized and lemmatized, and a vocabulary of terms is generated.
+[Yelp reviews were processed](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/src/latent_topic_analysis.py) using the library Textacy. Textacy allows for mutli-threading of documents using SpaCy. During text processing, stop words are removed, words are tokenized and lemmatized, and a vocabulary of terms is generated.
 
 ## Part 2:
 ### Latent Topic Analysis of Reviews:
@@ -66,7 +66,7 @@ Additionally, NlpTopicAnalysis can create a interactive [pyLDAvis plot](images/p
 ![alt text](images/pyLDAvis_screenshot.png)  
 
 We can see that topic 6* infers that this restaurant has a view of Bellagio Fountain in Las Vegas, Nevada. This is an example of how latent topic modeling can be used to provide insight into a business that would not normally be displayed in a business description or be used as a keyword to identify a business. Additionally, LDA can also provide insight into which topics are most important to reviewers. For this particular restaurant, topic 4** (the topic containing the terms steak, french and delicious) is the most important topic. Furthermore, using the pyLDAvis tool, we can visualize the relationship between different topics. Circles that overlap i.e. topic 5 and 6 contain similar or overlapping terms. Whereas topics spread further apart i.e. topic 1 and 2 contain terms that are not so similar to each other.   
-Lastly, document embeddings were visualized using Tensorboard to create interactive 3-dimensional PCA and tSNE plots. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/word_embeddings.py).  
+Lastly, document embeddings were visualized using Tensorboard to create interactive 3-dimensional PCA and tSNE plots. The document vectors were created using SpaCy's preloaded [GloVe](https://nlp.stanford.edu/projects/glove/) vectors. The code corresponding to the document vectors of the restaurant above can be found [here](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/src/word_embeddings.py).  
 
 <sup> * This corresponds to topic 5 in the termite plot above.</sup>  
 <sup> ** This corresponds to topic 3 in the termite plot above.</sup>
@@ -128,7 +128,7 @@ Balancing classes: based on [EDA](https://github.com/maxgrossenbacher/nlp_yelp_r
 | rating | Gradient Boosted Trees | learning_rate: 0.1; max_features: sqrt; n_estimators: 500 | 50.7% | 0.504 |  
 
 #### Seq2Seq:
-[Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/seq2seq_script.sh) models were attempted to predict more complex labels including the "target" label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.
+[Seq2seq](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/src/seq2seq_script.sh) models were attempted to predict more complex labels including the "target" label, which is a combination of rating of a review and price of a restaurant. More time was needed in order to optimize these models. Neural networks may provide a future direction for this project in order to control overfitting.
 
 ## Web App:
 [The Yelp Review Scorer](https://github.com/maxgrossenbacher/nlp_yelp_reviews/tree/master/web_app) will process a Yelp-type review and output a usefulness score, sentiment score, and suggested rating. Scores are predicted using the final models and parameters obtained [above](https://github.com/maxgrossenbacher/nlp_yelp_reviews#doc2vec-models). Have fun!
