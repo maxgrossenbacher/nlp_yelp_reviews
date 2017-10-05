@@ -7,6 +7,17 @@ import pickle
 
 
 def classifer(model, X, y, name):
+    '''
+    DESC: This function splits data and fits a model.
+    --Input--
+        model: sklearn model
+        X: feature matrix
+        y: targets
+        name: filpath to save fitted model
+    ----------------------------------
+    --Output--
+        Returns accuracy score, proabilities of certain class
+    '''
     X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y)
     model.fit(X_train, y_train)
     score = model.score(X_test, y_test)
