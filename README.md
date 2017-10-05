@@ -144,4 +144,4 @@ Additionally, targets can be modified to better capture the essence of what we a
 Lastly, expanding sentiment analysis to include feelings such as anger, joy, sadness, disgust and fear may allow further insights into which sentiment(s) are most common among reviews of different ratings
 
 ## Capstone Poster:
-![alt text](max_grossenbacher_poster_final.png)
+![alt text](max_grossenbacher_poster_final.pdf)
