@@ -51,7 +51,7 @@ Use machine learning to predict rating, usefulness and sentiment of a review
 ## Part 1:
 ### EDA:
 This is a distribution of the average rating of all business compared to the average rating of restaurants in the Yelp business dataset. As you can see, restaurants are rated on average only slightly higher than the global business average rating.
-![alt text](iamges/avg_rating.png)  
+![alt text](images/avg_rating.png)  
 You can see a majority of reviews are rated 4 and 5 stars. The average restaurant rating is ~3.7.
 ### Building NLP Pipeline:
 [Yelp reviews were processed](https://github.com/maxgrossenbacher/nlp_yelp_reviews/blob/master/latent_topic_analysis.py) using the library Textacy. Textacy allows for mutli-threading of documents using SpaCy. During text processing, stop words are removed, words are tokenized and lemmatized, and a vocabulary of terms is generated.
