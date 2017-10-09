@@ -170,43 +170,6 @@ class NlpTopicAnalysis(object):
         print('Done.')
 
 
-    # Principle component analysis for k means graph
-    def pca(self, n_components):
-        '''
-        DESC: Creates lower dimensional representation of tf/tfidf/binary matrix using PCA
-            n_components = number of dimensions
-        --Output--
-            Returns lower dimensional pca_mat
-        '''
-        p = PCA(n_components=n_components, copy=True, whiten=False, svd_solver='auto', \
-                    tol=0.0, iterated_power='auto', random_state=None)
-        self.pca_mat = p.fit_transform(self.doc_vectors)
-        return
-
-
-    def k_means(self, n_clusters):
-        '''
-        DESC: K-nearest neighbors modeling of tfidf matrix.
-        --Input--
-            n_clusters: number of clusters to model
-        ----------------------------------
-        --Output--
-            Returns centroids for n_clusters and labels for each tfidf document vector
-        '''
-        knn = KMeans(n_clusters=n_clusters, init='k-means++', n_init=10, max_iter=20, \
-                        tol=0.001, precompute_distances='auto', verbose=0, \
-                        random_state=None, copy_x=True, n_jobs=-1, algorithm='auto')
-        knn.fit(self.pca_mat)
-        centroids = knn.cluster_centers_
-        k_labels = knn.labels_
-        if self.pca_mat.shape[1] == 2:
-            plt.scatter(self.pca_mat[:,0], self.pca_mat[:,1], c=k_labels.astype(np.float), alpha=0.3)
-            plt.legend()
-            plt.title('Review Clustering')
-            print('plotting...')
-            plt.show()
-        return centroids, k_labels
-
     #Part 2
     def topic_analysis(self, n_topics=10, model_type='lda', n_terms=50, n_highlighted_topics=5, plot=False, save=False, kwargs=None):
         '''
