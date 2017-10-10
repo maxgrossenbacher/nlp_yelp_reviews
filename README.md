@@ -39,11 +39,14 @@ Social media is a burgeoning field built on the premise of human-to-human intera
 
 
 ## Overview
-This project is built around 3 main questions and explores the power of natural language processing to process and analyze text.
+### Goals:
+1) Provide businesses with a tool to better understand the content of the reviews left by their costumers.
+2) Encourage reviewers to leave more helpful reviews to better inform future consumer decisions.
+This project can be broken down into 3 main parts.
 #### Objective 1:
-Build a scaleable and reusable natural language processing pipeline
+Build a scaleable and reusable natural language processing pipeline to process reviews
 #### Objective 2:
-Find latent topics/keywords for business on Yelp based solely on user reviews of that business
+Find latent topics for businesses on Yelp based solely on user reviews of that business
 #### Objective 3:
 Use machine learning to predict rating, usefulness and sentiment of a review
 
