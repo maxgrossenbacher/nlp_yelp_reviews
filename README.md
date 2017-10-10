@@ -42,7 +42,8 @@ Social media is a burgeoning field built on the premise of human-to-human intera
 ### Goals:
 1) Provide businesses with a tool to better understand the content of the reviews left by their costumers.
 2) Encourage reviewers to leave more helpful reviews to better inform future consumer decisions.  
-This project can be broken down into 3 main parts.
+
+This project can be broken down into 3 main objectives.
 #### Objective 1:
 Build a scaleable and reusable natural language processing pipeline to process reviews
 #### Objective 2:
