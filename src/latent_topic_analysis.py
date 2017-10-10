@@ -65,7 +65,6 @@ class NlpTopicAnalysis(object):
         self.text = text
         self.label = []
         self.label2=[]
-        self.pca_mat = None
         self.tfidf = None
         self.topic_matrix = None
         self.latent_topics_top_terms = {}
